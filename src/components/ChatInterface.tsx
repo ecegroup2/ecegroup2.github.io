@@ -62,7 +62,7 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col h-full rounded-xl glass-morphism overflow-hidden animate-float-up">
+    <div className="flex flex-col h-[75vh] rounded-xl glass-morphism overflow-hidden animate-float-up">
       <div className="p-4 border-b">
         <h2 className="text-lg font-semibold">AI Health Consultation</h2>
         <p className="text-sm text-muted-foreground">
