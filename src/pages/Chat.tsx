@@ -18,7 +18,7 @@ const Chat = () => {
         <div className="md:col-span-2 h-[600px]">
           <ChatInterface />
         </div>
-        <div className="space-y-6">
+        <div className="space-y-6 -translate-y-20">
           <Card className="animate-float-up">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2">
