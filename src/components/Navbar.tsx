@@ -26,9 +26,7 @@ const Navbar = () => {
 
   return (
     <header 
-      className={`sticky top-0 z-50 w-full transition-all duration-300 bg-[#191919] ${
-        scrolled ? "bg-[#1d1c1c85] backdrop-blur-md shadow-sm" : "bg-transparent"
-      }`} 
+    className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-[#36333385] backdrop-blur-md shadow-md" : "bg-[#212121]"}`}
     >
       <div className="container flex h-16 items-center justify-between">
         <Link 
