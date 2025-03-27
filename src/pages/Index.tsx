@@ -124,8 +124,8 @@ const Index = () => {
   return (
     <MainLayout>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Health Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-3xl font-bold tracking-tight"> <span className=" text-green-500 cursor-pointer hover:text-green-300">Health</span> <span className="text-orange-600 cursor-pointer hover:text-orange-300">Dashboard</span></h1>
+        <p className="mt-1 text-[#df348a7c] hover:text-muted-foreground">
           Track and monitor your vital health metrics
         </p>
       </div>

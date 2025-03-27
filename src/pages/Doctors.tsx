@@ -56,7 +56,7 @@ const Doctors = () => {
   return (
     <MainLayout>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Find Cardiac Specialists</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-white">Find Cardiac Specialists</h1>
         <p className="text-muted-foreground mt-1">
           Connect with experts in cardiac care based on your health needs
         </p>
@@ -141,8 +141,8 @@ const Doctors = () => {
                   <CardDescription>Based on your health metrics</CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="flex items-center gap-1">
-                    <MapPin size={12} />
+                  <Badge variant="outline" className="flex items-center gap-1 bg-white">
+                    <MapPin size={12} className="text-green-500 font-bold" />
                     Near You
                   </Badge>
                 </div>

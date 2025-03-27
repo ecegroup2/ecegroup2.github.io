@@ -39,9 +39,10 @@ const HealthMetricCard = ({
         className
       )}
     >
-      <div className="flex justify-between items-start mb-4">
+      {/* for upper section of testing result */}
+      <div className="flex justify-between items-start mb-4 bg-black p-4 border rounded-md">
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+          <h3 className="text-lg font-bold text-muted-foreground">{title}</h3>
           <div className="flex items-end gap-1 mt-1">
             <span className={`text-3xl font-bold ${color}`}>{value}</span>
             {unit && <span className="text-sm text-muted-foreground self-end mb-1">{unit}</span>}
@@ -50,6 +51,7 @@ const HealthMetricCard = ({
         <div className={cn("p-2 rounded-full", color)}>{icon}</div>
       </div>
       
+      {/* for increase or decrease all test */}
       <div className="flex justify-between items-center">
         {trend && (
           <div className="flex items-center gap-1">

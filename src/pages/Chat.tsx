@@ -8,8 +8,8 @@ const Chat = () => {
   return (
     <MainLayout>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">AI Consultation</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-3xl font-bold tracking-tight text-white">AI Consultation</h1>
+        <p className="text-muted-foreground mt-1 text-[#FF69B4]">
           Discuss your health concerns with our AI health assistant
         </p>
       </div>
