@@ -63,8 +63,8 @@ const ChatInterface = () => {
 
   return (
     <div className="flex flex-col h-[75vh] rounded-xl glass-morphism overflow-hidden animate-float-up">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold">AI Health Consultation</h2>
+      <div className="p-4 border-b bg-black">
+        <h2 className="text-lg font-semibold text-white">AI Health Consultation</h2>
         <p className="text-sm text-muted-foreground">
           Ask questions about your health data and get personalized advice
         </p>
@@ -128,7 +128,7 @@ const ChatInterface = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4 border-t">
+      <form onSubmit={handleSubmit} className="p-4 border-t bg-black">
         <div className="flex gap-2">
           <input
             type="text"

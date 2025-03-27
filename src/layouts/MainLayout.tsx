@@ -16,7 +16,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-[#282829]">
       <Navbar />
       <main className="flex-1 container py-6 px-4 md:px-6 animate-fade-in">
         {children}

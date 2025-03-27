@@ -32,6 +32,7 @@ const VitalChart = ({
   name = "Value",
 }: VitalChartProps) => {
   return (
+    // for ecg content
     <div className={cn("chart-container p-1 h-[250px]", className)}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart

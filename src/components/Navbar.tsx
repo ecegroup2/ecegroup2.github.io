@@ -26,9 +26,9 @@ const Navbar = () => {
 
   return (
     <header 
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
-      }`}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 bg-[#191919] ${
+        scrolled ? "bg-[#1d1c1c85] backdrop-blur-md shadow-sm" : "bg-transparent"
+      }`} 
     >
       <div className="container flex h-16 items-center justify-between">
         <Link 
@@ -36,7 +36,7 @@ const Navbar = () => {
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
           <HeartPulse className="h-6 w-6 text-health-heart animate-pulse-subtle" />
-          <span className="font-semibold text-xl">HeartWise</span>
+          <span className="font-semibold text-xl text-yellow-50">HealthiFy</span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
