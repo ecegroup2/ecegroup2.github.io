@@ -190,7 +190,7 @@ const Index = () => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-              <Card>
+              {/* <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">Heart Rate</CardTitle>
                 </CardHeader>
@@ -221,7 +221,7 @@ const Index = () => {
                     name="SpO2"
                   />
                 </CardContent>
-              </Card>
+              </Card> */}
               <Card className="lg:col-span-2">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">ECG Readings</CardTitle>
