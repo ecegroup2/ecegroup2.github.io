@@ -130,34 +130,7 @@ const Index = () => {
         </p>
       </div>
 
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
-        <HealthMetricCard
-          title="Heart Rate"
-          value={heartRateData.length > 0 ? heartRateData[heartRateData.length - 1].value.toFixed(0) : "0"}
-          unit="BPM"
-          icon={<HeartPulse className="h-5 w-5 text-white" />}
-          color="text-health-heart"
-          trend={{ value: 3.2, isUp: true }}
-          status="normal"
-        />
-        <HealthMetricCard
-          title="Blood Oxygen (SpO2)"
-          value={spo2Data.length > 0 ? spo2Data[spo2Data.length - 1].value.toFixed(1) : "0"}
-          unit="%"
-          icon={<Stethoscope className="h-5 w-5 text-white" />}
-          color="text-health-oxygen"
-          trend={{ value: 0.5, isUp: false }}
-          status="normal"
-        />
-        <HealthMetricCard
-          title="ECG Status"
-          value="Normal"
-          icon={<Activity className="h-5 w-5 text-white" />}
-          color="text-health-ecg"
-          status="normal"
-        />
-      </div>
-
+      {/* for ecg diagram part */}
       <div className="mt-6">
         <Card className="animate-float-up" style={{ animationDelay: "0.1s" }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -240,6 +213,37 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* for spo2 hear rate checking part */}
+      <div className="mt-[3rem] grid gap-6 grid-cols-1 md:grid-cols-3">
+        <HealthMetricCard
+          title="Heart Rate"
+          value={heartRateData.length > 0 ? heartRateData[heartRateData.length - 1].value.toFixed(0) : "0"}
+          unit="BPM"
+          icon={<HeartPulse className="h-5 w-5 text-white" />}
+          color="text-health-heart"
+          trend={{ value: 3.2, isUp: true }}
+          status="normal"
+        />
+        <HealthMetricCard
+          title="Blood Oxygen (SpO2)"
+          value={spo2Data.length > 0 ? spo2Data[spo2Data.length - 1].value.toFixed(1) : "0"}
+          unit="%"
+          icon={<Stethoscope className="h-5 w-5 text-white" />}
+          color="text-health-oxygen"
+          trend={{ value: 0.5, isUp: false }}
+          status="normal"
+        />
+        <HealthMetricCard
+          title="ECG Status"
+          value="Normal"
+          icon={<Activity className="h-5 w-5 text-white" />}
+          color="text-health-ecg"
+          status="normal"
+        />
+      </div>
+
+      
     </MainLayout>
   );
 };

@@ -35,7 +35,7 @@ const HealthMetricCard = ({
   return (
     <div 
       className={cn(
-        "glass-morphism rounded-xl p-5 card-hover animate-float-up", 
+        "glass-morphism rounded-xl p-5 card-hover animate-float-up bg-slate-800", 
         className
       )}
     >
