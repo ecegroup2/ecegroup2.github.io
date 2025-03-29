@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <header 
-    className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-[#36333385] backdrop-blur-md shadow-md" : "bg-[#212121]"}`}
+    className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"}`}
     >
       <div className="container flex h-16 items-center justify-between">
         <Link 
@@ -42,9 +42,9 @@ const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`flex items-center gap-2 text-sm font-medium transition-all hover:text-primary ${
+              className={`bg-black border rounded-md py-1 px-3 flex items-center gap-2 text-sm font-medium transition-all hover:text-white hover:transition-colors-duration-200 hover:shadow-md hover:border-pink-400 hover:text-md ${
                 location.pathname === link.path
-                  ? "text-primary"
+                   ? "text-[#29c7ac] font-extrabold text-md shadow-md scale-105"
                   : "text-muted-foreground"
               }`}
             >
