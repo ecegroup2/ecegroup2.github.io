@@ -193,114 +193,147 @@ const Index = () => {
     spo2: number;
     ecg: string | null;
   }
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toLocaleDateString('en-CA'); // Format as YYYY-MM-DD in local time
+  };
   
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [selectedDate, setSelectedDate] = useState<string>(getCurrentDate());
+  // const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [data, setData] = useState<TestData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [heartRate, setHeartRate] = useState<number>(0);
   const [spo2, setSpo2] = useState<number>(0);
   
+  
+ // Handle date change and fetch data for the selected date
+const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  const date = event.target.value;
+  setSelectedDate(date);
+  setLoading(true);
+  setError('');
 
+  try {
+    const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    
+    const fetchedData: TestData[] = await response.json();
+    setData(fetchedData);
+    console.log(fetchedData);
+    
+    if(fetchedData.length>0)toast({
+      title: "Data Fetched",
+      description: "Data fetched successfully.",
+      variant: "success",
+      duration: 3000,
+    });else toast({
+      title: "No Data",
+      description: "No data available for the selected date.",
+      variant: "destructive",
+      duration: 3000,
+    });
+ } catch (err) {
+    setError('Error fetching data for the selected date.');
+    toast({
+      title: "Fetching Error",
+      description: "There was an error fetching the test result.",
+      variant: "destructive",
+      duration: 3000,
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
-  // after selecting the date, it will show the data of that date
-  const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const date = event.target.value;
-    setSelectedDate(date);
+// Automatically mount the data of last test in the box
+const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
+
+useEffect(() => {
+  const lastdata = async () => {
     setLoading(true);
     setError('');
-
     try {
-      const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
+      const response = await fetch(`http://raspi.local:9080/api/data/getall`);
       if (!response.ok) {
-        toast({
-          title: "Fetching Error",
-          description: "There was an error fetching the test result.",
-          variant: "destructive",
-          duration: 3000,
-        });
         throw new Error('Failed to fetch data');
       }
-      const fetchedData: TestData[] = await response.json();
-      setData(fetchedData);
+
+      const lastdata: TestData[] = await response.json();
+      setLastTestData(lastdata);
+      console.log('lastData',lastdata) ;
+
+      if (lastdata.length > 0) {
+        const lastTest = lastdata[lastdata.length - 1];
+        setHeartRate(lastTest.heartrate);
+        setSpo2(lastTest.spo2);
+      }
     } catch (err) {
-      setError('Error fetching tests for the selected date.');
+      // setError('Server Error');
+      setError('Error fetching data for the selected date.');
     } finally {
       setLoading(false);
     }
   };
 
+  lastdata();
+}, []);
 
 
-  // automatically mount the data of current date
-  useEffect(()=>{
-    const fetchData = async () => {
-      setLoading(true);
-      setError('');
-  
-      try {
-        const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${selectedDate}`);
-        if (!response.ok) {
-          toast({
-            title: "Fetching Error",
-            description: "There was an error fetching the test result.",
-            variant: "destructive",
-            duration: 3000,
-          });
-          throw new Error('Failed to fetch data');
-        }
-        const fetchedData: TestData[] = await response.json();
-        setData(fetchedData);
-      } catch (err) {
-        setError('Error fetching tests for the selected date.');
-      } finally {
-        setLoading(false);
+// Automatically mount the data of current date
+useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${selectedDate}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
       }
-    };
-  
-    fetchData();
-  }, [selectedDate]);
-
-// automatically mount the data of last test in the box
-const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
-  useEffect(() => {
-    const lastdata = async () => {
-      setLoading(true);
-      setError('');
-
-      try {
-        const response = await fetch(`http://raspi.local:9080/api/data/getall`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const lastdata : TestData[] = await response.json();
-
-        setLastTestData(lastdata);
-
-        // Set initial heart rate and SpO2 to the last test result
-        if (lastdata.length > 0) {
-          const lastTest = lastdata[lastdata.length - 1];
-          setHeartRate(lastTest.heartrate);
-          setSpo2(lastTest.spo2);
-        }
-      } catch (err) {
-        setError('Error fetching data for the selected date.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    lastdata();
-  }, []);
-
- 
-  // after clicking on details button, it will show the heart rate and spo2 value
-  const handleDetailsClick = (heartrate: number, spo2: number) => {
-    setHeartRate(heartrate);
-    console.log('Your heartrate data',heartRate) ;
-    setSpo2(spo2);
-    console.log('Your spo2 data',spo2) ;
+      const fetchedData: TestData[] = await response.json();
+      setData(fetchedData);
+      console.log(fetchedData);
+      console.log(fetchedData.length)
+      if(fetchedData.length>0)toast({
+        title: "Data Fetched",
+        description: "Data fetched successfully.",
+        variant: "success",
+        duration: 3000,
+      });else toast({
+        title: "No Data",
+        description: "No data available for the selected date.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    } catch (err) {
+      setError('Error fetching data for the selected date.');
+      toast({
+        title: "Fetching Error",
+        description: "There was an error fetching the test result.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  fetchData();
+}, [selectedDate]);
+
+
+
+// Show data on clicking "Details" button
+const handleDetailsClick = (heartrate: number, spo2: number) => {
+  setHeartRate(heartrate);
+  setSpo2(spo2);
+};
+
+
+
   
 
 
@@ -335,12 +368,9 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
                       onChange={handleDateChange}
                     />
                   
-                  {/* <TabsTrigger value="today">Today</TabsTrigger>
-                  <TabsTrigger value="week">Week</TabsTrigger>
-                  <TabsTrigger value="month">Month</TabsTrigger> */}
                 </TabsList>
               </Tabs>
-             
+
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -380,7 +410,6 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
         <HealthMetricCard
           title="Heart Rate"
           value={heartRate}
-          // value={heartRateData.length > 0 ? heartRateData[heartRateData.length - 1].value.toFixed(0) : "0"}
           unit="BPM"
           icon={<HeartPulse className="h-5 w-5 text-white" />}
           color="text-health-heart"
@@ -390,7 +419,6 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
         <HealthMetricCard
           title="Blood Oxygen (SpO2)"
           value={spo2}
-          // value={spo2Data.length > 0 ? spo2Data[spo2Data.length - 1].value.toFixed(1) : "0"}
           unit="%"
           icon={<Stethoscope className="h-5 w-5 text-white" />}
           color="text-health-oxygen"
@@ -407,15 +435,14 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
       </div>
     <section className="py-6">
     
-
       {loading ? (
-        <p>Loading...</p>
+        <div className="text-white mt-4 flex justify-center items-center mx-auto fond-bold italic">Loading...</div>
       ) : error ? (
-        <p style={{ color: 'red' }}>{error}</p>
+        <p className="text-white mx-auto flex justify-center items-center border-white rounded-md bg-red-800 w-[20rem] h-10">{error}</p>
       ) : data.length > 0 ? (
         <table className="text-white w-full bg-[#0f172a] rounded-lg shadow-md">
             <thead>
-              <tr className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 py-4 bg-[#1e293b]">
+              <tr className="flex justify-between items-center md:flex md:justify-between md:items-center lg:grid lg:grid-cols-5 gap-6 px-6 py-4 bg-[#1e293b]">
                 <th className="text-center text-xs sm:text-sm md:text-base">User ID</th>
                 <th className="text-center text-xs sm:text-sm md:text-base">Time</th>
                 <th className="text-center text-xs sm:text-sm md:text-base">Heart Rate</th>
@@ -430,7 +457,7 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
               .map((item) => (
                 <tr
                   key={item.userId}
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 py-4 hover:bg-[#1e293b] hover:shadow-lg transition duration-300"
+                  className="flex justify-between items-center md:flex md:justify-between md:items-center lg:grid lg:grid-cols-5 gap-6 px-6 py-4 hover:bg-[#1e293b] hover:shadow-lg transition duration-300"
                 >
                   <td className="text-center text-xs sm:text-sm md:text-base">
                     {`${item.userId.toString().slice(0, 4)}/${item.userId
@@ -454,18 +481,8 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
               ))}
           </tbody>
         </table>
-      ) : (
-        // Trigger toast outside the JSX return statement
-        (() => {
-          toast({
-            title: "No Data",
-            description: "No test data available for the selected date.",
-            variant: "destructive",
-            duration: 3000,
-          });
-          return <p>No data available for the selected date.</p>;
-        })()
-      )}
+      ) : <div className="text-white mx-auto flex justify-center items-center border-white rounded-md bg-red-800 w-[20rem] h-10">No data available for the selected date.</div>  
+      }
     
       
 
