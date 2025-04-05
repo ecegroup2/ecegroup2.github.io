@@ -414,46 +414,46 @@ const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
         <p style={{ color: 'red' }}>{error}</p>
       ) : data.length > 0 ? (
         <table className="text-white w-full bg-[#0f172a] rounded-lg shadow-md">
-  <thead>
-    <tr className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 py-4 bg-[#1e293b]">
-      <th className="text-center text-xs sm:text-sm md:text-base">User ID</th>
-      <th className="text-center text-xs sm:text-sm md:text-base">Time</th>
-      <th className="text-center text-xs sm:text-sm md:text-base">Heart Rate</th>
-      <th className="text-center text-xs sm:text-sm md:text-base">SpO2</th>
-      <th className="text-center text-xs sm:text-sm md:text-base">More</th>
-    </tr>
-  </thead>
-  <tbody>
-    {data
-      .slice()
-      .sort((a, b) => b.userId - a.userId) // Sort latest results first
-      .map((item) => (
-        <tr
-          key={item.userId}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 py-4 hover:bg-[#1e293b] hover:shadow-lg transition duration-300"
-        >
-          <td className="text-center text-xs sm:text-sm md:text-base">
-            {`${item.userId.toString().slice(0, 4)}/${item.userId
-              .toString()
-              .slice(4, 6)}/${item.userId.toString().slice(6, 8)}`}
-          </td>
-          <td className="text-center text-xs sm:text-sm md:text-base">
-            {`${item.userId.toString().slice(8, 10)}:${item.userId
-              .toString()
-              .slice(10, 12)}:${item.userId.toString().slice(12, 14)}`}
-          </td>
-          <td className="text-center text-xs sm:text-sm md:text-base">{item.heartrate}</td>
-          <td className="text-center text-xs sm:text-sm md:text-base">{item.spo2}</td>
-          <td
-            className="text-center text-xs sm:text-sm md:text-base hover:text-green-500 cursor-pointer"
-            onClick={() => handleDetailsClick(item.heartrate, item.spo2)}
-          >
-            Details
-          </td>
-        </tr>
-      ))}
-  </tbody>
-</table>
+            <thead>
+              <tr className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 py-4 bg-[#1e293b]">
+                <th className="text-center text-xs sm:text-sm md:text-base">User ID</th>
+                <th className="text-center text-xs sm:text-sm md:text-base">Time</th>
+                <th className="text-center text-xs sm:text-sm md:text-base">Heart Rate</th>
+                <th className="text-center text-xs sm:text-sm md:text-base">SpO2</th>
+                <th className="text-center text-xs sm:text-sm md:text-base">More</th>
+              </tr>
+            </thead>
+          <tbody>
+            {data
+              .slice()
+              .sort((a, b) => b.userId - a.userId) 
+              .map((item) => (
+                <tr
+                  key={item.userId}
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 px-6 py-4 hover:bg-[#1e293b] hover:shadow-lg transition duration-300"
+                >
+                  <td className="text-center text-xs sm:text-sm md:text-base">
+                    {`${item.userId.toString().slice(0, 4)}/${item.userId
+                      .toString()
+                      .slice(4, 6)}/${item.userId.toString().slice(6, 8)}`}
+                  </td>
+                  <td className="text-center text-xs sm:text-sm md:text-base">
+                    {`${item.userId.toString().slice(8, 10)}:${item.userId
+                      .toString()
+                      .slice(10, 12)}:${item.userId.toString().slice(12, 14)}`}
+                  </td>
+                  <td className="text-center text-xs sm:text-sm md:text-base">{item.heartrate}</td>
+                  <td className="text-center text-xs sm:text-sm md:text-base">{item.spo2}</td>
+                  <td
+                    className="text-center text-xs sm:text-sm md:text-base hover:text-green-500 cursor-pointer"
+                    onClick={() => handleDetailsClick(item.heartrate, item.spo2)}
+                  >
+                    Details
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       ) : (
         // Trigger toast outside the JSX return statement
         (() => {
