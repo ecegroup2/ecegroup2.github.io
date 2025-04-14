@@ -12,120 +12,17 @@ import { saveAs } from "file-saver";
 import { toast } from "@/components/ui/use-toast";
 import { set } from "date-fns";
 import { title } from "process";
+import ECGDiagram from "@/components/ui/ECGDiagram";
 
-// // Mock data for health metrics
-// const generateMockData = (baseline: number, variance: number, count: number) => {
-//   const times = Array.from({ length: count }, (_, i) => {
-//     const date = new Date();
-//     date.setMinutes(date.getMinutes() - (count - i) * 15);
-//     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-//   });
-// 
-//   return times.map(time => ({
-//     time,
-//     value: baseline + (Math.random() * variance * 2) - variance
-//   }));
-// };
 
-// // More realistic ECG simulation
-// const generateEcgData = (count: number) => {
-//   // Base ECG pattern (simplified PQRST wave simulation)
-//   const basePattern = [0, 0.1, 0.2, 0, -0.1, 1.5, -0.5, 0.2, 0.3, 0.2, 0.1, 0];
-//   const patternLength = basePattern.length;
-  
-//   const times = Array.from({ length: count }, (_, i) => {
-//     const date = new Date();
-//     date.setSeconds(date.getSeconds() - (count - i) * 2);
-//     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-//   });
-
-//   return times.map((time, index) => {
-//     // Add some random variation to the base pattern
-//     const patternIndex = index % patternLength;
-//     const baseValue = basePattern[patternIndex];
-//     const randomVariation = (Math.random() * 0.3) - 0.15; // Small random variation
-    
-//     return {
-//       time,
-//       value: baseValue + randomVariation + 85 // Offset to keep it in display range
-//     };
-//   });
-// };
 
 const Index = () => {
   const [heartRateData, setHeartRateData] = useState<any[]>([]);
   const [spo2Data, setSpo2Data] = useState<any[]>([]);
-  const [ecgData, setEcgData] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("today");
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // // Simulate data loading
-  // useEffect(() => {
-  //   setHeartRateData(generateMockData(75, 8, 24));
-  //   setSpo2Data(generateMockData(97, 2, 24));
-  //   setEcgData(generateEcgData(50)); // More data points for ECG
-  // }, [activeTab]);
-
-  // const refreshData = () => {
-  //   setHeartRateData(generateMockData(75, 8, 24));
-  //   setSpo2Data(generateMockData(97, 2, 24));
-  //   setEcgData(generateEcgData(50));
-  // };
-
-  // const downloadData = async () => {
-  //   try {
-  //     setIsDownloading(true);
-  //     const zip = new JSZip();
   
-  //     // Convert data to CSV format
-  //     const convertToCSV = (data: any[], headers: string) => {
-  //       const rows = data.map((item: { [s: string]: unknown; } | ArrayLike<unknown>) => Object.values(item).join(","));
-  //       return `${headers}\n${rows.join("\n")}`;
-  //     };
-  
-  //     const heartRateCSV = convertToCSV(heartRateData, "time,heart_rate");
-  //     const spo2CSV = convertToCSV(spo2Data, "time,spo2");
-  //     const ecgCSV = convertToCSV(ecgData, "time,ecg");
-  
-  //     // Add files to the ZIP
-  //     zip.file("heart_rate_data.csv", heartRateCSV);
-  //     zip.file("spo2_data.csv", spo2CSV);
-  //     zip.file("ecg_data.csv", ecgCSV);
-  
-  //     // Add JSON format too
-  //     zip.file("heart_rate_data.json", JSON.stringify(heartRateData, null, 2));
-  //     zip.file("spo2_data.json", JSON.stringify(spo2Data, null, 2));
-  //     zip.file("ecg_data.json", JSON.stringify(ecgData, null, 2));
-  
-  //     // Generate the ZIP file
-  //     const content = await zip.generateAsync({ type: "blob" });
-  
-  //     // Save the file using FileSaver
-  //     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  //     saveAs(content, `health_data_${timestamp}.zip`);
-  
-  //     // Success toast
-  //     toast({
-  //       title: "Download Successful",
-  //       description: "Your health data has been downloaded successfully.",
-  //       duration: 3000,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error downloading data:", error);
-  
-  //     // Error toast
-  //     toast({
-  //       title: "Download Failed",
-  //       description: "There was an error downloading your health data.",
-  //       variant: "destructive",
-  //       duration: 3000,
-  //     });
-  //   } finally {
-  //     setIsDownloading(false);
-  //   }
-  // };
-
-
 
   const downloadData = async () => {
     try {
@@ -135,12 +32,12 @@ const Index = () => {
       // Convert data to CSV format
       const heartRateCSV = convertToCSV(heartRateData, "time,heart_rate");
       const spo2CSV = convertToCSV(spo2Data, "time,spo2");
-      const ecgCSV = convertToCSV(ecgData, "time,ecg");
+      // const ecgCSV = convertToCSV(ecgData, "time,ecg");
       
       // Add files to the zip
       zip.file("heart_rate_data.csv", heartRateCSV);
       zip.file("spo2_data.csv", spo2CSV);
-      zip.file("ecg_data.csv", ecgCSV);
+      // zip.file("ecg_data.csv", ecgCSV);
       
       // Add JSON format too
       zip.file("heart_rate_data.json", JSON.stringify(heartRateData, null, 2));
@@ -205,6 +102,23 @@ const Index = () => {
   const [error, setError] = useState<string>('');
   const [heartRate, setHeartRate] = useState<number>(0);
   const [spo2, setSpo2] = useState<number>(0);
+  const [ecgData, setEcgData] = useState<string[] | null>(null);
+
+  // const fetchEcgData = async (date: string) => {
+  //   try {
+  //     const response = await fetch(`http://raspi.local:9080/api/data/getEcgByDate?date=${date}`);
+  //     if (!response.ok) {
+  //       throw new Error('Failed to fetch ECG data');
+  //     }
+  //     const fetchedEcgData = await response.json();
+  //     setEcgData(fetchedEcgData.ecg);
+  //   } catch (error) {
+  //     console.error("Error fetching ECG data:", error);
+  //     setEcgData(null);
+  //   }
+  // };
+
+  
   
   
  // Handle date change and fetch data for the selected date
@@ -214,6 +128,8 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
   setLoading(true);
   setError('');
 
+ 
+
   try {
     const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
     if (!response.ok) {
@@ -222,7 +138,7 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
     
     const fetchedData: TestData[] = await response.json();
     setData(fetchedData);
-    console.log(fetchedData);
+    console.log('fetch Data',fetchedData);
     
     if(fetchedData.length>0)toast({
       title: "Data Fetched",
@@ -267,8 +183,14 @@ useEffect(() => {
 
       if (lastdata.length > 0) {
         const lastTest = lastdata[lastdata.length - 1];
+        console.log('lastTest',lastTest)
         setHeartRate(lastTest.heartrate);
         setSpo2(lastTest.spo2);
+        // console.log('typo',typeof lastTest.ecg)
+        // setEcgData(lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
+        setEcgData(lastTest.ecg ? [lastTest.ecg] : null);
+        console.log('lasttestecg....',lastTest.ecg)
+        // console.log('this is my last test ecgdata', lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
       }
     } catch (err) {
       // setError('Server Error');
@@ -281,7 +203,7 @@ useEffect(() => {
   lastdata();
 }, []);
 
-
+console.log('ecgData',ecgData)
 // Automatically mount the data of current date
 useEffect(() => {
   const fetchData = async () => {
@@ -295,7 +217,6 @@ useEffect(() => {
       }
       const fetchedData: TestData[] = await response.json();
       setData(fetchedData);
-      console.log(fetchedData);
       console.log(fetchedData.length)
       if(fetchedData.length>0)toast({
         title: "Data Fetched",
@@ -334,6 +255,7 @@ const handleDetailsClick = (heartrate: number, spo2: number) => {
 
 
 
+console.log('mydata',data) ;
   
 
 
@@ -391,13 +313,7 @@ const handleDetailsClick = (heartrate: number, spo2: number) => {
                   <CardTitle className="text-lg">ECG Readings</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <VitalChart
-                    data={ecgData}
-                    color="#16a34a"
-                    gradientFrom="#16a34a"
-                    gradientTo="#86efac"
-                    name="ECG"
-                  />
+                  <ECGDiagram ecgData={ecgData ? [ecgData.toString()] : []} />
                 </CardContent>
               </Card>
             </div>
@@ -502,4 +418,3 @@ function convertToCSV(heartRateData: any[], arg1: string) {
 function fetchData() {
   throw new Error("Function not implemented.");
 }
-
