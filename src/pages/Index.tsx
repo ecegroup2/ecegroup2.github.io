@@ -131,7 +131,8 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
  
 
   try {
-    const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
+    const response = await fetch(`http://${window.location}:9080/api/data/getByDate?date=${date}`);
+    // const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
@@ -172,7 +173,8 @@ useEffect(() => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(`http://raspi.local:9080/api/data/getall`);
+      const response = await fetch(`http://${window.location}:9080/api/data/getall`);
+      // const response = await fetch(`http://raspi.local:9080/api/data/getall`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -211,7 +213,7 @@ useEffect(() => {
     setError('');
 
     try {
-      const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${selectedDate}`);
+      const response = await fetch(`http://${window.location}:9080/api/data/getByDate?date=${selectedDate}`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
