@@ -20,8 +20,6 @@ const config = {
 
 
 
-
-
 // const ECGDiagram: React.FC<ECGDiagramProps> = () => {
     const ECGDiagram: React.FC<ECGDiagramProps> = ({ ecgData })   =>{
     
