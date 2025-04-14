@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { HeartPulse, MessageSquare, Users } from "lucide-react";
+import { HeartPulse, MessageSquare, Users, Star } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -22,6 +22,7 @@ const Navbar = () => {
     { path: "/", label: "Dashboard", icon: <HeartPulse size={18} /> },
     { path: "/chat", label: "AI Consultation", icon: <MessageSquare size={18} /> },
     { path: "/doctors", label: "Find Doctors", icon: <Users size={18} /> },
+    { path: "/Testimonial", label: "Testimonial", icon: <Star size={18} /> }
   ];
 
   return (
@@ -53,7 +54,7 @@ const Navbar = () => {
             </Link>
           ))}
         </nav>
-
+        
         <div className="md:hidden flex items-center">
           <div className="flex gap-4">
             {navLinks.map((link) => (

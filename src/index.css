@@ -40,6 +40,7 @@
     --health-heart: hsl(348 100% 61%);
     --health-oxygen: hsl(199 89% 48%);
     --health-ecg: hsl(150 63% 31%);
+    /* --health-ecg: hsl(0, 0%, 0%); */
     --health-warning: hsl(38 92% 50%);
     --health-good: hsl(142 72% 29%);
   }
