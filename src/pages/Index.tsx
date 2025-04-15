@@ -269,10 +269,10 @@ useEffect(() => {
 
 
 // Show data on clicking "Details" button
-const handleDetailsClick = (heartrate: number, spo2: number) => {
+const handleDetailsClick = (heartrate: number, spo2: number,ecg:string) => {
   setHeartRate(heartrate);
   setSpo2(spo2);
-  // setEcgData(latest.ecg.split(','));
+  setEcgData(ecg ? [ecg] : null);
 };
 
 
@@ -412,7 +412,7 @@ console.log('mydata',data) ;
                   <td className="text-center text-xs sm:text-sm md:text-base">{item.spo2}</td>
                   <td
                     className="text-center text-xs sm:text-sm md:text-base hover:text-green-500 cursor-pointer"
-                    onClick={() => handleDetailsClick(item.heartrate, item.spo2)}
+                    onClick={() => handleDetailsClick(item.heartrate, item.spo2,item.ecg)}
                   >
                     Details
                   </td>
