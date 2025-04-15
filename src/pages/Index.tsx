@@ -104,19 +104,6 @@ const Index = () => {
   const [spo2, setSpo2] = useState<number>(0);
   const [ecgData, setEcgData] = useState<string[] | null>(null);
 
-  // const fetchEcgData = async (date: string) => {
-  //   try {
-  //     const response = await fetch(`http://raspi.local:9080/api/data/getEcgByDate?date=${date}`);
-  //     if (!response.ok) {
-  //       throw new Error('Failed to fetch ECG data');
-  //     }
-  //     const fetchedEcgData = await response.json();
-  //     setEcgData(fetchedEcgData.ecg);
-  //   } catch (error) {
-  //     console.error("Error fetching ECG data:", error);
-  //     setEcgData(null);
-  //   }
-  // };
 
   
   
@@ -131,7 +118,7 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
  
 
   try {
-    const response = await fetch(`http://${window.location}:9080/api/data/getByDate?date=${date}`);
+    const response = await fetch(`http://${window.location.hostname}:9080/api/data/getByDate?date=${date}`);
     // const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -141,18 +128,27 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setData(fetchedData);
     console.log('fetch Data',fetchedData);
     
-    if(fetchedData.length>0)toast({
+    if(fetchedData.length>0){
+      const latest = fetchedData[fetchedData.length - 1];
+      setHeartRate(latest.heartrate);
+      setSpo2(latest.spo2);
+      setEcgData(latest.ecg ? [latest.ecg] : null);
+      toast({
       title: "Data Fetched",
       description: "Data fetched successfully.",
       variant: "success",
       duration: 3000,
-    });else toast({
+    })}else {
+      setHeartRate(0);
+      setSpo2(0);
+      setEcgData(null);
+      toast({
       title: "No Data",
       description: "No data available for the selected date.",
       variant: "destructive",
       duration: 3000,
     });
- } catch (err) {
+ }} catch (err) {
     setError('Error fetching data for the selected date.');
     toast({
       title: "Fetching Error",
@@ -168,42 +164,42 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
 // Automatically mount the data of last test in the box
 const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
 
-useEffect(() => {
-  const lastdata = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const response = await fetch(`http://${window.location}:9080/api/data/getall`);
-      // const response = await fetch(`http://raspi.local:9080/api/data/getall`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
+// useEffect(() => {
+//   const lastdata = async () => {
+//     setLoading(true);
+//     setError('');
+//     try {
+//       const response = await fetch(`http://${window.location.hostname}:9080/api/data/getall`);
+//       // const response = await fetch(`http://raspi.local:9080/api/data/getall`);
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch data');
+//       }
 
-      const lastdata: TestData[] = await response.json();
-      setLastTestData(lastdata);
-      console.log('lastData',lastdata) ;
+//       const lastdata: TestData[] = await response.json();
+//       setLastTestData(lastdata);
+//       console.log('lastData',lastdata) ;
 
-      if (lastdata.length > 0) {
-        const lastTest = lastdata[lastdata.length - 1];
-        console.log('lastTest',lastTest)
-        setHeartRate(lastTest.heartrate);
-        setSpo2(lastTest.spo2);
-        // console.log('typo',typeof lastTest.ecg)
-        // setEcgData(lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
-        setEcgData(lastTest.ecg ? [lastTest.ecg] : null);
-        console.log('lasttestecg....',lastTest.ecg)
-        // console.log('this is my last test ecgdata', lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
-      }
-    } catch (err) {
-      // setError('Server Error');
-      setError('Error fetching data for the selected date.');
-    } finally {
-      setLoading(false);
-    }
-  };
+//       if (lastdata.length > 0) {
+//         const lastTest = lastdata[lastdata.length - 1];
+//         console.log('lastTest',lastTest)
+//         setHeartRate(lastTest.heartrate);
+//         setSpo2(lastTest.spo2);
+//         // console.log('typo',typeof lastTest.ecg)
+//         // setEcgData(lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
+//         setEcgData(lastTest.ecg ? [lastTest.ecg] : null);
+//         console.log('lasttestecg....',lastTest.ecg)
+//         // console.log('this is my last test ecgdata', lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
+//       }
+//     } catch (err) {
+//       // setError('Server Error');
+//       setError('Error fetching data for the selected date.');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  lastdata();
-}, []);
+//   lastdata();
+// }, []);
 
 console.log('ecgData',ecgData)
 // Automatically mount the data of current date
@@ -213,24 +209,46 @@ useEffect(() => {
     setError('');
 
     try {
-      const response = await fetch(`http://${window.location}:9080/api/data/getByDate?date=${selectedDate}`);
+      const response = await fetch(`http://${window.location.hostname}:9080/api/data/getByDate?date=${selectedDate}`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
       const fetchedData: TestData[] = await response.json();
+      console.log('fetchData',fetchedData) ;
       setData(fetchedData);
       console.log(fetchedData.length)
-      if(fetchedData.length>0)toast({
-        title: "Data Fetched",
-        description: "Data fetched successfully.",
-        variant: "success",
-        duration: 3000,
-      });else toast({
-        title: "No Data",
-        description: "No data available for the selected date.",
-        variant: "destructive",
-        duration: 3000,
-      });
+      if (fetchedData.length > 0) {
+        const latest = fetchedData[fetchedData.length - 1];
+        setHeartRate(latest.heartrate);
+        setSpo2(latest.spo2);
+        setEcgData(latest.ecg ? [latest.ecg] : null);
+        toast({
+              title: "Data Fetched",
+              description: "Data fetched successfully.",
+              variant: "success",
+              duration: 3000,
+            });
+      } else {
+        setHeartRate(0);
+        setSpo2(0);
+        setEcgData(null);
+      }
+      // if(fetchedData.length>0){
+      //   const latest = fetchedData[fetchedData.length - 1];
+      //   setHeartRate(latest.heartrate);
+      //   setSpo2(latest.spo2);
+      //   setEcgData(latest.ecg ? [latest.ecg] : null);
+      //   toast({
+      //     title: "Data Fetched",
+      //     description: "Data fetched successfully.",
+      //     variant: "success",
+      //     duration: 3000,
+      //   });
+      // } else {
+      //   setHeartRate(0);
+      //   setSpo2(0);
+      //   setEcgData(null);
+      // }
     } catch (err) {
       setError('Error fetching data for the selected date.');
       toast({
@@ -327,6 +345,7 @@ console.log('mydata',data) ;
       <div className="mt-[3rem] grid gap-6 grid-cols-1 md:grid-cols-3">
         <HealthMetricCard
           title="Heart Rate"
+
           value={heartRate}
           unit="BPM"
           icon={<HeartPulse className="h-5 w-5 text-white" />}
