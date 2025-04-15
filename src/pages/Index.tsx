@@ -115,8 +115,6 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
   setLoading(true);
   setError('');
 
- 
-
   try {
     const response = await fetch(`http://${window.location.hostname}:9080/api/data/getByDate?date=${date}`);
     // const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
@@ -133,6 +131,8 @@ const handleDateChange = async (event: ChangeEvent<HTMLInputElement>) => {
       setHeartRate(latest.heartrate);
       setSpo2(latest.spo2);
       setEcgData(latest.ecg ? [latest.ecg] : null);
+      // setEcgData(latest.ecg.split(','));
+
       toast({
       title: "Data Fetched",
       description: "Data fetched successfully.",
@@ -222,6 +222,7 @@ useEffect(() => {
         setHeartRate(latest.heartrate);
         setSpo2(latest.spo2);
         setEcgData(latest.ecg ? [latest.ecg] : null);
+        // console.log('eluuuuluuu',ecgData)
         toast({
               title: "Data Fetched",
               description: "Data fetched successfully.",
@@ -271,6 +272,7 @@ useEffect(() => {
 const handleDetailsClick = (heartrate: number, spo2: number) => {
   setHeartRate(heartrate);
   setSpo2(spo2);
+  // setEcgData(latest.ecg.split(','));
 };
 
 
