@@ -69,7 +69,7 @@ const ECGDiagram: React.FC<ECGDiagramProps> = ({ ecgData }) => {
 
         ctx.stroke();
 
-    }, [hasValidData, ecgData]);
+    }, [hasValidData, ecgData,numericArray]);
 
     if (!hasValidData) {
         return (
