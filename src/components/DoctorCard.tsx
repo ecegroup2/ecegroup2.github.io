@@ -1,78 +1,88 @@
-
-import { Badge } from "@/components/ui/badge";
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Phone, Star } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { CSSProperties } from "react";
+import { MapPin, Star } from "lucide-react";
+import StarRating from "./StarRating";
 
 interface DoctorCardProps {
+  id: number;
   name: string;
   image: string;
   specialization: string;
+  Rate: number;
   rating: number;
   location: string;
   experience: number;
   availability: string;
-  className?: string;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
+  onRateDoctor: (id: number, newRating: number) => void;
 }
 
-const DoctorCard = ({
+const DoctorCard: React.FC<DoctorCardProps> = ({
+  id,
   name,
   image,
   specialization,
+  Rate,
   rating,
   location,
   experience,
   availability,
-  className,
   style,
-}: DoctorCardProps) => {
+  onRateDoctor,
+}) => {
+  const handleRatingClick = (newRating: number) => {
+    onRateDoctor(id, newRating);
+  };
+
   return (
-    <div className={cn("glass-morphism rounded-xl overflow-hidden card-hover animate-float-up", className)} style={style}>
-      <div className="p-6">
-        <div className="flex items-center gap-4">
-          <img
-            src={image}
-            alt={name}
-            className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-            loading="lazy"
-          />
-          <div>
-            <h3 className="font-semibold text-lg">{name}</h3>
-            <div className="flex items-center gap-2 mt-1">
-              <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
-                {specialization}
-              </Badge>
-              <div className="flex items-center text-amber-500">
-                <Star size={14} className="fill-current" />
-                <span className="text-xs ml-1">{rating}</span>
-              </div>
+    <Card
+      className="w-full max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row"
+      style={style}
+    >
+      <div className="flex-shrink-0 p-4 flex justify-center sm:justify-start">
+        <img
+          src={image}
+          alt={name}
+          className="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-full border-4 border-white shadow-md"
+        />
+      </div>
+
+      <CardContent className="flex-1 p-4 flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
+
+          <div className="flex items-center space-x-2 mt-1 text-sm text-muted-foreground">
+            <span>{specialization}</span>
+            <div className="flex items-center text-amber-500">
+              <Star size={14} className="fill-current" />
+              <span className="ml-1 text-xs">{Rate}</span>
             </div>
           </div>
+
+          <p className="flex items-center text-sm text-gray-600 mt-2">
+            <MapPin className="w-4 h-4 mr-1 text-green-600" />
+            {location}
+          </p>
+
+          <p className="text-sm text-gray-500 mt-1">
+            Experience: {experience} years
+          </p>
+          <p className="text-sm text-gray-500">Availability: {availability}</p>
         </div>
 
-        <div className="mt-4 space-y-2">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin size={14} className="text-slate-400" />
-            <span>{location}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Calendar size={14} className="text-slate-400" />
-            <span>{experience} years experience</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Phone size={14} className="text-slate-400" />
-            <span>Available {availability}</span>
-          </div>
-        </div>
+        <div className="mt-4 flex flex-col sm:flex-col sm:items-start sm:justify-between gap-3">
+          <Button className="w-full sm:w-auto px-6 py-2 rounded-lg shadow-sm">
+            Book Appointment
+          </Button>
 
-        <div className="mt-5 flex gap-2">
-          <Button variant="outline" className="flex-1">View Profile</Button>
-          <Button className="flex-1">Book Appointment</Button>
+          <div className=" ml-10 flex items-center gap-2 text-sm text-gray-700">
+            <StarRating value={rating} onRate={handleRatingClick} />
+            <span className="text-xs text-gray-600">({rating.toFixed(1)})</span>
+          </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
