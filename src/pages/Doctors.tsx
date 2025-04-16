@@ -99,12 +99,13 @@ const initialDoctors: Doctor[] = [
     specialization: "Interventional Cardiologist",
     rating: 0,
     location: "Los Angeles",
-    Rate: 3.8,
+    Rate: 4.1,
     experience: 14,
     availability: "Wed-Sun",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
+  
 ];
 
 const Doctors = () => {
