@@ -30,7 +30,8 @@ const StarRating = ({
     <div className="flex gap-1">
       {[...Array(max)].map((_, i) => {
         const starVal = i + 1;
-        const isFilled = starVal <= (hovered ?? rating);
+        const displayRating = value ?? rating;
+        const isFilled = starVal <= (hovered ?? displayRating);
         return (
           <Star
             key={starVal}

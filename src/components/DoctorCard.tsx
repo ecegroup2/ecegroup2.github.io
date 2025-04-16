@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import StarRating from "./StarRating";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Star } from "lucide-react";
-import StarRating from "./StarRating";
+import clsx from "clsx";
 
 interface DoctorCardProps {
   id: number;
@@ -31,15 +32,20 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   style,
   onRateDoctor,
 }) => {
+  const [currentRating, setCurrentRating] = useState(rating);
+
+  // useEffect(() => {
+  //   setCurrentRating(rating);
+  // }, [rating]);
+
   const handleRatingClick = (newRating: number) => {
+    setCurrentRating(newRating);
     onRateDoctor(id, newRating);
   };
 
   return (
-    <Card
-      className="w-full max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row"
-      style={style}
-    >
+    <Card className="w-full max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row" style={style}>
+      {/* Profile Image */}
       <div className="flex-shrink-0 p-4 flex justify-center sm:justify-start">
         <img
           src={image}
@@ -48,6 +54,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
         />
       </div>
 
+      {/* Doctor Info */}
       <CardContent className="flex-1 p-4 flex flex-col justify-between">
         <div>
           <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
@@ -68,6 +75,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           <p className="text-sm text-gray-500 mt-1">
             Experience: {experience} years
           </p>
+
           <p className="text-sm text-gray-500">Availability: {availability}</p>
         </div>
 
@@ -77,13 +85,14 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           </Button>
 
           <div className=" ml-10 flex items-center gap-2 text-sm text-gray-700">
-            <StarRating value={rating} onRate={handleRatingClick} />
-            <span className="text-xs text-gray-600">({rating.toFixed(1)})</span>
+            <StarRating value={currentRating} onRate={handleRatingClick} />
+            <span className="text-xs text-gray-600">({currentRating.toFixed(1)})</span>
           </div>
         </div>
       </CardContent>
     </Card>
   );
 };
+      
 
 export default DoctorCard;
