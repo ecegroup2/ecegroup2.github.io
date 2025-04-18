@@ -43,6 +43,12 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
     onRateDoctor(id, newRating);
   };
 
+  const phoneNumber = '+919875658491'; // replace with the actual number
+
+  const handleCall = () => {
+    window.location.href = `tel:${phoneNumber}`;
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row" style={style}>
       {/* Profile Image */}
@@ -80,9 +86,15 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
         </div>
 
         <div className="mt-4 flex flex-col sm:flex-col sm:items-start sm:justify-between gap-3">
-          <Button className="w-full sm:w-auto px-6 py-2 rounded-lg shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center gap-2">
+          <Button className="w-full sm:w-auto px-5 py-2 rounded-lg shadow-sm"  onClick={handleCall}>
+            Call Now
+          </Button>
+
+          <Button className="w-full sm:w-auto px-4 py-2 rounded-lg shadow-sm">
             Book Appointment
           </Button>
+          </div>
 
           <div className=" ml-10 flex items-center gap-2 text-sm text-gray-700">
             <StarRating value={currentRating} onRate={handleRatingClick} />
