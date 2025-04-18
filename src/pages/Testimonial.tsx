@@ -14,13 +14,13 @@ const teamMembers: TeamMember[] = [
     id: 1,
     name: "Mrs. Sumani Mukherjee",
     photo: "/SMC.jpg",
-    role: "Project Guider",
+    role: "Project Mentor",
     intro: `Assistant Professor || Electronics & Communication Engineering Department`,
   },
   {
     id: 2,
     name: "Soumik Pal",
-    photo: "https://via.placeholder.com/100",
+    photo: null,
     role: "Project Leader",
     intro: "Student of Electronics & Communication Engineering Department",
   },
@@ -63,11 +63,18 @@ const Testimonial: React.FC = () => {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-700 opacity-10 group-hover:opacity-20 transition-opacity duration-700" />
               <div className="relative p-6 z-10">
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-purple-500 shadow-md"
-                />
+                {member.photo ? (
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-purple-500 shadow-md"
+                  />
+                ) : (
+                  <div className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-purple-500 shadow-md bg-purple-600 flex items-center justify-center text-white text-3xl font-bold">
+                    {member.name.charAt(0)}
+                  </div>
+                )}
+
                 <h3 className="text-xl font-bold text-center mb-2">{member.name}</h3>
                 <p className="text-sm text-center text-purple-300 italic mb-2">{member.role}</p>
                 <p className="text-center text-gray-300 text-sm">{member.intro}</p>

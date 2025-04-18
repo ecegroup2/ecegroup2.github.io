@@ -1,11 +1,11 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { HeartPulse, MessageSquare, Users, Star } from "lucide-react";
+import { HeartPulse, MessageSquare, Users, Star, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,34 +18,41 @@ const Navbar = () => {
     };
   }, []);
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => !prev);
+  };
+
   const navLinks = [
     { path: "/", label: "Dashboard", icon: <HeartPulse size={18} /> },
     { path: "/chat", label: "AI Consultation", icon: <MessageSquare size={18} /> },
     { path: "/doctors", label: "Find Doctors", icon: <Users size={18} /> },
-    { path: "/Testimonial", label: "Testimonial", icon: <Star size={18} /> }
+    { path: "/Testimonial", label: "Testimonial", icon: <Star size={18} /> },
   ];
 
   return (
-    <header 
-    className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"}`}
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
+      }`}
     >
-      <div className="container flex h-16 items-center justify-between">
-        <Link 
-          to="/" 
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <Link
+          to="/"
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
           <HeartPulse className="h-6 w-6 text-health-heart animate-pulse-subtle" />
           <span className="font-semibold text-xl text-yellow-50">HealthiFy</span>
         </Link>
-        
+
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`bg-black border rounded-md py-1 px-3 flex items-center gap-2 text-sm font-medium transition-all hover:text-white hover:transition-colors-duration-200 hover:shadow-md hover:border-pink-400 hover:text-md ${
+              className={`border rounded-md py-1 px-3 flex items-center gap-2 text-sm font-medium transition-all hover:text-white hover:shadow-md hover:border-pink-400 ${
                 location.pathname === link.path
-                   ? "text-[#29c7ac] font-extrabold text-md shadow-md scale-105"
+                  ? "text-[#29c7ac] font-extrabold shadow-md scale-105"
                   : "text-muted-foreground"
               }`}
             >
@@ -54,26 +61,40 @@ const Navbar = () => {
             </Link>
           ))}
         </nav>
-        
+
+        {/* Mobile Hamburger */}
         <div className="md:hidden flex items-center">
-          <div className="flex gap-4">
+          <button
+            onClick={toggleMobileMenu}
+            className="text-white focus:outline-none"
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-[#101524] px-4 pb-4 pt-2">
+          <div className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex flex-col items-center justify-center p-2 rounded-full ${
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-3 p-2 rounded-md transition-all ${
                   location.pathname === link.path
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground"
+                    ? "bg-[#1d2a3a] text-[#29c7ac] font-semibold"
+                    : "text-muted-foreground hover:text-white hover:bg-[#1c1f2b]"
                 }`}
-                aria-label={link.label}
               >
                 {link.icon}
+                <span>{link.label}</span>
               </Link>
             ))}
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
