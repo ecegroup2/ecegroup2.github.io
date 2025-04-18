@@ -23,10 +23,17 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </div>
       </main>
       <footer className="w-full py-4 text-center text-sm text-muted-foreground px-4 space-y-2">
-        <div className="max-w-screen-xl mx-auto"><span className="font-bold">Contact:</span> <span className="font-semibold cursor-pointer text-slate-300" onClick={function sendMail() {
-            window.location.href = "mailto:office@example.com";
-        }
-}>projectimposs@gmail.com</span></div>
+        <div className="max-w-screen-xl mx-auto">
+          <span className="font-bold">Contact:</span>{" "}
+          <span
+            className="font-semibold cursor-pointer text-slate-300"
+            onClick={function sendMail() {
+              window.location.href = "mailto:office@example.com";
+            }}
+          >
+            projectimposs@gmail.com
+          </span>
+        </div>
         <div className="max-w-screen-xl mx-auto">
           © {new Date().getFullYear()} HeartWise. All rights reserved.
         </div>
