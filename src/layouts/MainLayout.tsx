@@ -28,7 +28,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <span
             className="font-semibold cursor-pointer text-slate-300"
             onClick={function sendMail() {
-              window.location.href = "mailto:office@example.com";
+              window.location.href = "mailto:projectimposs@gmail.com";
             }}
           >
             projectimposs@gmail.com
