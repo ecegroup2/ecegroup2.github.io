@@ -9,6 +9,7 @@ import Chat from "./pages/Chat";
 import Doctors from "./pages/Doctors";
 import Testimonial from "./pages/Testimonial.tsx"; // Ensure the file './pages/Testimonial.tsx' exists or update the path to the correct file.
 import NotFound from "./pages/NotFound";
+import AuthPage from "./pages/AuthPage"; // Ensure the file './pages/AuthPage.tsx' exists or update the path to the correct file.
 
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/Testimonial" element={<Testimonial />} />

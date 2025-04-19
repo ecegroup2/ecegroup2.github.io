@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Navbar from "@/components/Navbar";
 
 type Doctor = {
   id: number;
@@ -299,7 +300,7 @@ const Doctors = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+              <div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
                 {filteredDoctors.length === 0 ? (
                   <div>No doctors match your criteria</div>
                 ) : (
