@@ -134,7 +134,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-4">
           {isAuthenticated ? (
-            <span className="text-yellow-50 text-sm mr-2">
+            <span className="text-yellow-50 italic text-[8px] ml-2">
               Hi, {userName}
             </span>
           ) : null}
@@ -182,7 +182,7 @@ const Navbar = () => {
                 onClick={handleLogout}
                 className="flex items-center gap-2 p-2 bg-red-600 bg-opacity-80 text-white rounded hover:bg-red-700 transition"
               >
-                <LogOut size={18} />
+                <LogOut size={14} />
                 <span>Logout</span>
               </button>
             ) : (
