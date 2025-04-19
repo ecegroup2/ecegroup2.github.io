@@ -4,14 +4,14 @@ import { HeartPulse, MessageSquare, Users, Star, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [scrolled, setScrolled] = useState(false);
+  
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY > 0);
     };
-
+  
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -30,12 +30,9 @@ const Navbar = () => {
   ];
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
-      }`}
-    >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+      scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
+    }`}><div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link
           to="/"
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
@@ -44,7 +41,7 @@ const Navbar = () => {
           <span className="font-semibold text-xl text-yellow-50">HealthiFy</span>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Tablet & Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
@@ -57,7 +54,8 @@ const Navbar = () => {
               }`}
             >
               {link.icon}
-              {link.label}
+              {/* label hidden on md, visible on lg+ */}
+              <span className="hidden lg:inline">{link.label}</span>
             </Link>
           ))}
         </nav>
@@ -72,10 +70,13 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-
+          {/* ${
+       */} 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#101524] px-4 pb-4 pt-2">
+        <div className={`md:hidden px-4 pb-4 pt-2 ${
+          scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
+        }`}>
           <div className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link
