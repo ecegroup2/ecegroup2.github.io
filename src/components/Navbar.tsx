@@ -1,25 +1,71 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { HeartPulse, MessageSquare, Users, Star, Menu, X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  HeartPulse,
+  MessageSquare,
+  Users,
+  Star,
+  Menu,
+  X,
+  User,
+  LogOut,
+} from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState("");
+
+  // Check authentication status when component mounts and when location changes
+  useEffect(() => {
+    checkAuthStatus();
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
-  
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const checkAuthStatus = () => {
+    const userData = localStorage.getItem("healthifyUser");
+    if (userData) {
+      const user = JSON.parse(userData);
+      if (user.isAuthenticated) {
+        setIsAuthenticated(true);
+        setUserName(user.name || "User");
+      } else {
+        setIsAuthenticated(false);
+        setUserName("");
+      }
+    } else {
+      setIsAuthenticated(false);
+      setUserName("");
+    }
+  };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
+  };
+
+  const handleSignInClick = () => {
+    navigate("/auth");
+  };
+
+  const handleLogout = () => {
+    // Clear authentication data
+    localStorage.removeItem("healthifyUser");
+    setIsAuthenticated(false);
+    setUserName("");
+    setMobileMenuOpen(false);
+    
+    // Optional: Navigate to home page
+    navigate("/");
   };
 
   const navLinks = [
@@ -30,9 +76,12 @@ const Navbar = () => {
   ];
 
   return (
-    <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-      scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
-    }`}><div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
+      }`}
+    >
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link
           to="/"
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
@@ -41,7 +90,7 @@ const Navbar = () => {
           <span className="font-semibold text-xl text-yellow-50">HealthiFy</span>
         </Link>
 
-        {/* Tablet & Desktop Nav */}
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
@@ -54,29 +103,63 @@ const Navbar = () => {
               }`}
             >
               {link.icon}
-              {/* label hidden on md, visible on lg+ */}
               <span className="hidden lg:inline">{link.label}</span>
             </Link>
           ))}
+
+          {/* Auth Buttons - Desktop */}
+          {isAuthenticated ? (
+            <div className="flex items-center ml-4">
+              <div className="text-yellow-50 mr-4 hidden lg:block">
+                Welcome, {userName}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 transition flex items-center gap-2"
+              >
+                <LogOut size={16} />
+                <span>Logout</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleSignInClick}
+              className="ml-4 bg-pink-600 text-white px-4 py-1 rounded hover:bg-pink-700 transition"
+            >
+              Sign In
+            </button>
+          )}
         </nav>
 
-        {/* Mobile Hamburger */}
-        <div className="md:hidden flex items-center">
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center gap-4">
+          {isAuthenticated ? (
+            <span className="text-yellow-50 text-sm mr-2">
+              Hi, {userName}
+            </span>
+          ) : null}
+          
           <button
-            onClick={toggleMobileMenu}
-            className="text-white focus:outline-none"
+            onClick={isAuthenticated ? handleLogout : handleSignInClick}
+            className={`flex items-center justify-center ${isAuthenticated ? "text-red-400" : "text-white"}`}
+            title={isAuthenticated ? "Logout" : "Sign In"}
           >
+            {isAuthenticated ? <LogOut size={22} /> : <User size={24} />}
+          </button>
+
+          <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
-          {/* ${
-       */} 
+
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className={`md:hidden px-4 pb-4 pt-2 ${
-          scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
-        }`}>
+        <div
+          className={`md:hidden px-4 pb-4 pt-2 ${
+            scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
+          }`}
+        >
           <div className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link
@@ -93,6 +176,26 @@ const Navbar = () => {
                 <span>{link.label}</span>
               </Link>
             ))}
+            
+            {isAuthenticated ? (
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 p-2 bg-red-600 bg-opacity-80 text-white rounded hover:bg-red-700 transition"
+              >
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  handleSignInClick();
+                  setMobileMenuOpen(false);
+                }}
+                className="bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       )}

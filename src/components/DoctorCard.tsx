@@ -50,7 +50,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row" style={style}>
+    <Card className="w-full  max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row" style={style}>
       {/* Profile Image */}
       <div className="flex-shrink-0 p-4 flex justify-center sm:justify-start">
         <img
