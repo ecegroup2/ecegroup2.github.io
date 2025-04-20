@@ -35,13 +35,21 @@ const Navbar = () => {
   const checkAuthStatus = () => {
     const userData = localStorage.getItem("healthifyUser");
     if (userData) {
-      const user = JSON.parse(userData);
-      if (user.isAuthenticated) {
-        setIsAuthenticated(true);
-        setUserName(user.name || "User");
-      } else {
+      try {
+        const user = JSON.parse(userData);
+        if (user && user.isAuthenticated) {
+          setIsAuthenticated(true);
+          setUserName(user.name || "User");
+        } else {
+          setIsAuthenticated(false);
+          setUserName("");
+        }
+      } catch (error) {
+        // Handle JSON parse error
+        console.error("Error parsing user data:", error);
         setIsAuthenticated(false);
         setUserName("");
+        localStorage.removeItem("healthifyUser"); // Clear corrupted data
       }
     } else {
       setIsAuthenticated(false);
@@ -55,6 +63,7 @@ const Navbar = () => {
 
   const handleSignInClick = () => {
     navigate("/auth");
+    setMobileMenuOpen(false); // Close mobile menu when navigating
   };
 
   const handleLogout = () => {
@@ -63,14 +72,18 @@ const Navbar = () => {
     setIsAuthenticated(false);
     setUserName("");
     setMobileMenuOpen(false);
-    
-    // Optional: Navigate to home page
+
+    // Navigate to home page
     navigate("/");
   };
 
   const navLinks = [
     { path: "/", label: "Dashboard", icon: <HeartPulse size={18} /> },
-    { path: "/chat", label: "AI Consultation", icon: <MessageSquare size={18} /> },
+    {
+      path: "/chat",
+      label: "AI Consultation",
+      icon: <MessageSquare size={18} />,
+    },
     { path: "/doctors", label: "Find Doctors", icon: <Users size={18} /> },
     { path: "/Testimonial", label: "Testimonial", icon: <Star size={18} /> },
   ];
@@ -86,8 +99,10 @@ const Navbar = () => {
           to="/"
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <HeartPulse className="h-6 w-6 text-health-heart animate-pulse-subtle" />
-          <span className="font-semibold text-xl text-yellow-50">HealthiFy</span>
+          <HeartPulse className="h-6 w-6 text-pink-500 animate-pulse-subtle" />
+          <span className="font-semibold text-xl text-yellow-50">
+            HealthiFy
+          </span>
         </Link>
 
         {/* Desktop Nav */}
@@ -134,20 +149,25 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-4">
           {isAuthenticated ? (
-            <span className="text-yellow-50 italic text-[8px] ml-2">
+            <span className="text-yellow-50 text-sm ml-4 mr-1">
               Hi, {userName}
             </span>
           ) : null}
-          
+
           <button
             onClick={isAuthenticated ? handleLogout : handleSignInClick}
-            className={`flex items-center justify-center ${isAuthenticated ? "text-red-400" : "text-white"}`}
+            className={`flex items-center justify-center ${
+              isAuthenticated ? "text-red-400" : "text-white"
+            }`}
             title={isAuthenticated ? "Logout" : "Sign In"}
           >
-            {isAuthenticated ? <LogOut size={22} /> : <User size={24} />}
+            {isAuthenticated ? <LogOut size={20} /> : <User size={24} />}
           </button>
 
-          <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
+          <button
+            onClick={toggleMobileMenu}
+            className="text-white focus:outline-none"
+          >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -157,7 +177,9 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div
           className={`md:hidden px-4 pb-4 pt-2 ${
-            scrolled ? "bg-[#10152427] backdrop-blur-md shadow-md" : "bg-[#101524]"
+            scrolled
+              ? "bg-[#10152427] backdrop-blur-md shadow-md"
+              : "bg-[#101524]"
           }`}
         >
           <div className="flex flex-col gap-3">
@@ -176,11 +198,11 @@ const Navbar = () => {
                 <span>{link.label}</span>
               </Link>
             ))}
-            
+
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 p-2 bg-red-600 bg-opacity-80 text-white rounded hover:bg-red-700 transition"
+                className="flex items-center gap-2 p-2 bg-red-600 bg-opacity-80 text-white rounded hover:bg-red-700 transition mt-2"
               >
                 <LogOut size={14} />
                 <span>Logout</span>
@@ -191,7 +213,7 @@ const Navbar = () => {
                   handleSignInClick();
                   setMobileMenuOpen(false);
                 }}
-                className="bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition"
+                className="bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition mt-2"
               >
                 Sign In
               </button>
