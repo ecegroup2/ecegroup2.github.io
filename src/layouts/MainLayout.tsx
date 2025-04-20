@@ -22,7 +22,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           {children}
         </div>
       </main>
-      <footer className="w-full py-4 text-center text-sm text-muted-foreground px-4 space-y-2">
+      <footer className="w-full py-4 text-center text-sm text-black px-4 space-y-2">
         <div className="max-w-screen-xl mx-auto">
           <span className="font-bold">Contact:</span>{" "}
           <span

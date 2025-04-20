@@ -1,6 +1,8 @@
 import { HeartPulse, Stethoscope, Activity, Download } from "lucide-react";
 import HealthMetricCard from "@/components/HealthMetricCard";
 import VitalChart from "@/components/VitalChart";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Card,
   CardContent,
@@ -14,9 +16,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import MainLayout from "@/layouts/MainLayout";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { toast } from "@/components/ui/use-toast";
-import { set } from "date-fns";
-import { title } from "process";
 import ECGDiagram from "@/components/ui/ECGDiagram";
 
 const Index = () => {
@@ -31,14 +30,12 @@ const Index = () => {
       const zip = new JSZip();
 
       // Convert data to CSV format
-      const heartRateCSV = convertToCSV(heartRateData, "time,heart_rate");
-      const spo2CSV = convertToCSV(spo2Data, "time,spo2");
-      // const ecgCSV = convertToCSV(ecgData, "time,ecg");
+      const heartRateCSV = convertToCSVFormat(heartRateData, "time,heart_rate");
+      const spo2CSV = convertToCSVFormat(spo2Data, "time,spo2");
 
       // Add files to the zip
       zip.file("heart_rate_data.csv", heartRateCSV);
       zip.file("spo2_data.csv", spo2CSV);
-      // zip.file("ecg_data.csv", ecgCSV);
 
       // Add JSON format too
       zip.file("heart_rate_data.json", JSON.stringify(heartRateData, null, 2));
@@ -51,32 +48,20 @@ const Index = () => {
       // Save the file using FileSaver
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
       saveAs(content, `health_data_${timestamp}.zip`);
-
-      toast({
-        title: "Download Successful",
-        description: "Your health data has been downloaded successfully.",
-        duration: 3000,
-      });
+      toast.success("Download Successful");
     } catch (error) {
       console.error("Error downloading data:", error);
-      toast({
-        title: "Download Failed",
-        description: "There was an error downloading your health data.",
-        variant: "destructive",
-        duration: 3000,
-      });
+      toast.error("Download Failed");
     } finally {
       setIsDownloading(false);
     }
   };
 
   // Helper function to convert data to CSV format
-  const convertToCSV = (data: any[], header: string) => {
+  const convertToCSVFormat = (data: any[], header: string) => {
     const rows = data.map((item) => `${item.time},${item.value}`);
     return [header, ...rows].join("\n");
   };
-
-  //new update
 
   interface TestData {
     userId: number;
@@ -84,13 +69,13 @@ const Index = () => {
     spo2: number;
     ecg: string | null;
   }
+
   const getCurrentDate = () => {
     const today = new Date();
     return today.toLocaleDateString("en-CA"); // Format as YYYY-MM-DD in local time
   };
 
   const [selectedDate, setSelectedDate] = useState<string>(getCurrentDate());
-  // const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [data, setData] = useState<TestData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -109,8 +94,8 @@ const Index = () => {
       const response = await fetch(
         `http://${window.location.hostname}:9080/api/data/getByDate?date=${date}`
       );
-      // const response = await fetch(`http://raspi.local:9080/api/data/getByDate?date=${date}`);
       if (!response.ok) {
+        toast.error("Fetching Error");
         throw new Error("Failed to fetch data");
       }
 
@@ -123,79 +108,20 @@ const Index = () => {
         setHeartRate(latest.heartrate);
         setSpo2(latest.spo2);
         setEcgData(latest.ecg ? [latest.ecg] : null);
-        // setEcgData(latest.ecg.split(','));
-
-        toast({
-          title: "Data Fetched",
-          description: "Data fetched successfully.",
-          variant: "success",
-          duration: 3000,
-        });
+        toast.success("Data Fetched Successfully");
       } else {
         setHeartRate(0);
         setSpo2(0);
         setEcgData(null);
-        toast({
-          title: "No Data",
-          description: "No data available for the selected date.",
-          variant: "destructive",
-          duration: 3000,
-        });
       }
     } catch (err) {
       setError("Error fetching data for the selected date.");
-      toast({
-        title: "Fetching Error",
-        description: "There was an error fetching the test result.",
-        variant: "destructive",
-        duration: 3000,
-      });
+      toast.error("Fetching Error");
     } finally {
       setLoading(false);
     }
   };
 
-  // Automatically mount the data of last test in the box
-  const [lasttestdata, setLastTestData] = useState<TestData[]>([]);
-
-  // useEffect(() => {
-  //   const lastdata = async () => {
-  //     setLoading(true);
-  //     setError('');
-  //     try {
-  //       const response = await fetch(`http://${window.location.hostname}:9080/api/data/getall`);
-  //       // const response = await fetch(`http://raspi.local:9080/api/data/getall`);
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch data');
-  //       }
-
-  //       const lastdata: TestData[] = await response.json();
-  //       setLastTestData(lastdata);
-  //       console.log('lastData',lastdata) ;
-
-  //       if (lastdata.length > 0) {
-  //         const lastTest = lastdata[lastdata.length - 1];
-  //         console.log('lastTest',lastTest)
-  //         setHeartRate(lastTest.heartrate);
-  //         setSpo2(lastTest.spo2);
-  //         // console.log('typo',typeof lastTest.ecg)
-  //         // setEcgData(lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
-  //         setEcgData(lastTest.ecg ? [lastTest.ecg] : null);
-  //         console.log('lasttestecg....',lastTest.ecg)
-  //         // console.log('this is my last test ecgdata', lastTest.ecg ? JSON.parse(lastTest.ecg).map(Number) : null);
-  //       }
-  //     } catch (err) {
-  //       // setError('Server Error');
-  //       setError('Error fetching data for the selected date.');
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   lastdata();
-  // }, []);
-
-  console.log("ecgData", ecgData);
   // Automatically mount the data of current date
   useEffect(() => {
     const fetchData = async () => {
@@ -207,53 +133,28 @@ const Index = () => {
           `http://${window.location.hostname}:9080/api/data/getByDate?date=${selectedDate}`
         );
         if (!response.ok) {
+          toast.error("Fetching Error");
           throw new Error("Failed to fetch data");
         }
         const fetchedData: TestData[] = await response.json();
         console.log("fetchData", fetchedData);
         setData(fetchedData);
-        console.log(fetchedData.length);
+
         if (fetchedData.length > 0) {
           const latest = fetchedData[fetchedData.length - 1];
           setHeartRate(latest.heartrate);
           setSpo2(latest.spo2);
           setEcgData(latest.ecg ? [latest.ecg] : null);
-          // console.log('eluuuuluuu',ecgData)
-          toast({
-            title: "Data Fetched",
-            description: "Data fetched successfully.",
-            variant: "success",
-            duration: 3000,
-          });
+          toast.success("Data Fetched Successfully");
         } else {
+          toast.error("No data available for the selected date.");
           setHeartRate(0);
           setSpo2(0);
           setEcgData(null);
         }
-        // if(fetchedData.length>0){
-        //   const latest = fetchedData[fetchedData.length - 1];
-        //   setHeartRate(latest.heartrate);
-        //   setSpo2(latest.spo2);
-        //   setEcgData(latest.ecg ? [latest.ecg] : null);
-        //   toast({
-        //     title: "Data Fetched",
-        //     description: "Data fetched successfully.",
-        //     variant: "success",
-        //     duration: 3000,
-        //   });
-        // } else {
-        //   setHeartRate(0);
-        //   setSpo2(0);
-        //   setEcgData(null);
-        // }
       } catch (err) {
         setError("Error fetching data for the selected date.");
-        toast({
-          title: "Fetching Error",
-          description: "There was an error fetching the test result.",
-          variant: "destructive",
-          duration: 3000,
-        });
+        toast.error("Fetching Error");
       } finally {
         setLoading(false);
       }
@@ -269,10 +170,10 @@ const Index = () => {
     setEcgData(ecg ? [ecg] : null);
   };
 
-  console.log("mydata", data);
-
   return (
     <MainLayout>
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight">
           {" "}
@@ -324,14 +225,7 @@ const Index = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={downloadData.bind(
-                    null,
-                    heartRate,
-                    spo2,
-                    ecgData,
-                    setIsDownloading,
-                    toast
-                  )}
+                  onClick={downloadData}
                   disabled={isDownloading}
                   className="flex items-center justify-center gap-1 w-full sm:w-auto"
                 >
@@ -390,25 +284,25 @@ const Index = () => {
             Loading...
           </div>
         ) : error ? (
-          <p className="text-white mx-auto flex justify-center items-center border-white rounded-md bg-red-800 w-[20rem] h-10">
+          <p className="text-white mx-auto flex justify-center items-center text-center border-white rounded-md bg-red-800 max-w-[20rem] max-h-12">
             {error}
           </p>
         ) : data.length > 0 ? (
           <table className="text-white w-full bg-[#0f172a] rounded-lg shadow-md">
             <thead>
-              <tr className="flex justify-between items-center md:flex md:justify-between md:items-center lg:grid lg:grid-cols-5 gap-6 px-6 py-4 bg-[#1e293b]">
+              <tr className="flex justify-between items-center md:flex md:justify-between md:items-center lg:grid lg:grid-cols-3 gap-6 px-6 py-4 bg-[#1e293b]">
                 <th className="text-center text-xs sm:text-sm md:text-base">
                   User ID
                 </th>
                 <th className="text-center text-xs sm:text-sm md:text-base">
                   Time
                 </th>
-                <th className="text-center text-xs sm:text-sm md:text-base">
+                {/* <th className="text-center text-xs sm:text-sm md:text-base">
                   Heart Rate
                 </th>
                 <th className="text-center text-xs sm:text-sm md:text-base">
                   SpO2
-                </th>
+                </th> */}
                 <th className="text-center text-xs sm:text-sm md:text-base">
                   More
                 </th>
@@ -421,7 +315,7 @@ const Index = () => {
                 .map((item) => (
                   <tr
                     key={item.userId}
-                    className="flex justify-between items-center md:flex md:justify-between md:items-center lg:grid lg:grid-cols-5 gap-6 px-6 py-4 hover:bg-[#1e293b] hover:shadow-lg transition duration-300"
+                    className="flex justify-between items-center md:flex md:justify-between md:items-center lg:grid lg:grid-cols-3 gap-6 px-6 py-4 hover:bg-[#1e293b] hover:shadow-lg transition duration-300"
                   >
                     <td className="text-center text-xs sm:text-sm md:text-base">
                       {`${item.userId.toString().slice(0, 4)}/${item.userId
@@ -435,12 +329,12 @@ const Index = () => {
                         .toString()
                         .slice(12, 14)}`}
                     </td>
-                    <td className="text-center text-xs sm:text-sm md:text-base">
+                    {/* <td className="text-center text-xs sm:text-sm md:text-base">
                       {item.heartrate}
                     </td>
                     <td className="text-center text-xs sm:text-sm md:text-base">
                       {item.spo2}
-                    </td>
+                    </td> */}
                     <td
                       className="text-center text-xs sm:text-sm md:text-base hover:text-green-500 cursor-pointer"
                       onClick={() =>
@@ -464,10 +358,3 @@ const Index = () => {
 };
 
 export default Index;
-
-function convertToCSV(heartRateData: any[], arg1: string) {
-  throw new Error("Function not implemented.");
-}
-function fetchData() {
-  throw new Error("Function not implemented.");
-}

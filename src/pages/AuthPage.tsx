@@ -15,22 +15,22 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState("");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
   });
   const navigate = useNavigate();
-
-  interface FormData {
-    name: string;
-    email: string;
-    password: string;
-  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -107,7 +107,11 @@ const AuthPage = () => {
     e.preventDefault();
 
     if (isLogin) {
+      // Login form handling
       if (formData.email && formData.password) {
+        // In a real app, you'd validate credentials against a backend
+        // For demo, simulate successful login
+
         // Save user info to localStorage to maintain session
         const userData = {
           isAuthenticated: true,
@@ -130,7 +134,7 @@ const AuthPage = () => {
           return;
         }
 
-        // Save user info to localStorage - no need to login again
+        // Save user info to localStorage with the actual name
         const userData = {
           isAuthenticated: true,
           email: formData.email,
@@ -145,6 +149,22 @@ const AuthPage = () => {
         toast.error("Please fill in all fields");
       }
     }
+  };
+
+  // Function to handle Google login success
+  const handleGoogleLoginSuccess = (credentialResponse: any) => {
+    // In a real app, you'd verify the token on your backend
+    // For demo purposes, simulate a successful login
+
+    const userData = {
+      isAuthenticated: true,
+      email: "google-user@example.com", // In a real app, you'd decode the JWT to get this
+      name: "Google User", // In a real app, you'd get the name from the token
+    };
+    localStorage.setItem("healthifyUser", JSON.stringify(userData));
+
+    toast.success("Google login successful!");
+    setTimeout(() => navigate("/"), 1500);
   };
 
   // Function to switch between login and signup
@@ -452,10 +472,7 @@ const AuthPage = () => {
                 <div className="w-full">
                   <GoogleOAuthProvider clientId="964095254128-fhk44pl70tgoaa1jcnd9ft489t3tm6tp.apps.googleusercontent.com">
                     <GoogleLogin
-                      onSuccess={() => {
-                        toast.success("Google login successful!");
-                        setTimeout(() => navigate("/"), 1500);
-                      }}
+                      onSuccess={handleGoogleLoginSuccess}
                       onError={() => {
                         toast.error("Google login failed. Please try again.");
                       }}
