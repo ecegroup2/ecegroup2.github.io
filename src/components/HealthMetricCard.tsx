@@ -22,8 +22,8 @@ const HealthMetricCard = ({
   unit,
   icon,
   color = "text-primary",
-  trend,
-  status = 'normal',
+  // trend,
+  // status = 'normal',
   className,
 }: HealthMetricCardProps) => {
   const statusClasses = {
@@ -52,7 +52,7 @@ const HealthMetricCard = ({
       </div>
       
       {/* for increase or decrease all test */}
-      <div className="flex justify-between items-center">
+      {/* <div className="flex justify-between items-center">
         {trend && (
           <div className="flex items-center gap-1">
             <span
@@ -71,7 +71,7 @@ const HealthMetricCard = ({
             {status === 'critical' && "Critical"}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
