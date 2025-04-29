@@ -18,6 +18,8 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import ECGDiagram from "@/components/ui/ECGDiagram";
 
+
+
 const Index = () => {
   const [heartRateData, setHeartRateData] = useState<any[]>([]);
   const [spo2Data, setSpo2Data] = useState<any[]>([]);
@@ -170,6 +172,9 @@ const Index = () => {
     setEcgData(ecg ? [ecg] : null);
   };
 
+
+  
+ 
   return (
     <MainLayout>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -183,6 +188,11 @@ const Index = () => {
           <Activity className="text-blue-400 mt-[0.3rem] w-5 h-5" />
         </p>
       </div>
+
+
+
+
+      
 
       {/* for ecg diagram part */}
       <div className="mt-6">
