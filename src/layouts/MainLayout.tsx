@@ -47,11 +47,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    // document.addEventListener('click', handleClickOutside);
+    // return () => {
+    //   document.removeEventListener('click', handleClickOutside);
+    // };
   }, [isExpanded]);
+
+  // open the menu when clicking the background
+  const openMenu = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+    }
+  };
 
   // Handle the phone call action
   const handleCall = (e: React.MouseEvent) => {
@@ -79,6 +86,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           {/* Expanded menu items */}
           {isExpanded && (
             <div
+              onClick={openMenu}
               className={`flex flex-col items-end space-y-4 mb-4 ${
                 isAnimating ? "animate-fadeIn" : ""
               }`}
