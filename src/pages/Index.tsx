@@ -18,6 +18,8 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import ECGDiagram from "@/components/ui/ECGDiagram";
 
+
+
 const Index = () => {
   const [heartRateData, setHeartRateData] = useState<any[]>([]);
   const [spo2Data, setSpo2Data] = useState<any[]>([]);
@@ -170,24 +172,27 @@ const Index = () => {
     setEcgData(ecg ? [ecg] : null);
   };
 
+
+  
+ 
   return (
     <MainLayout>
       <ToastContainer position="top-right" autoClose={3000} />
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">
-          {" "}
-          <span className=" text-green-500 cursor-pointer hover:text-green-300">
-            Health
-          </span>{" "}
-          <span className="text-orange-600 cursor-pointer hover:text-orange-300">
-            Dashboard
-          </span>
+        <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent drop-shadow-md">
+          Health Dashboard
         </h1>
-        <p className="mt-1 text-[#df348a7c] hover:text-muted-foreground">
+        <p className="mt-1 flex flex-row gap-1 text-pink-400 text-sm sm:text-base hover:text-pink-900">
           Track and monitor your vital health metrics
+          <Activity className="text-blue-400 mt-[0.3rem] w-5 h-5" />
         </p>
       </div>
+
+
+
+
+      
 
       {/* for ecg diagram part */}
       <div className="mt-6">
