@@ -82,7 +82,7 @@ const Chat = () => {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-rose-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-900 relative">
+      <div className="min-h-screen bg-[#282829] dark:from-gray-900 dark:via-slate-900 dark:to-gray-900 relative">
         <div className="absolute inset-0 opacity-5 bg-heart-pattern pointer-events-none"></div>
         <div className="container mx-auto px-4 py-8 relative z-10">
           <header className="text-center mb-12">
