@@ -189,7 +189,7 @@ const Index = () => {
     <MainLayout>
       <ToastContainer position="top-right" autoClose={3000} />
 
-      <div className="mb-6">
+      <div className="mb-4 max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent drop-shadow-md">
           Health Dashboard
         </h1>
@@ -200,7 +200,7 @@ const Index = () => {
       </div>
 
       {/* for ecg diagram part */}
-      <div className="mt-6">
+      <div className="mt-6 max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="animate-float-up" style={{ animationDelay: "0.1s" }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between w-full">
@@ -261,7 +261,7 @@ const Index = () => {
       </div>
 
       {/* for spo2 hear rate checking part */}
-      <div className="mt-[3rem] grid gap-6 grid-cols-1 md:grid-cols-3">
+      <div className="mt-[3rem] grid gap-6 grid-cols-1 md:grid-cols-2">
         <HealthMetricCard
           title="Heart Rate"
           value={heartRate}
@@ -280,13 +280,13 @@ const Index = () => {
           trend={{ value: 0.5, isUp: false }}
           status="normal"
         />
-        <HealthMetricCard
+        {/* <HealthMetricCard
           title="ECG Status"
           value="Normal"
           icon={<Activity className="h-5 w-5 text-white" />}
           color="text-health-ecg"
           status="normal"
-        />
+        /> */}
       </div>
 
       <div className="my-6 flex justify-center items-center">
