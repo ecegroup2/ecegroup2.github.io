@@ -173,11 +173,11 @@ const Testimonial: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className="bg-[#282829] text-slate-900 py-16 px-6 min-h-screen">
+      <div className="bg-[#282829] text-slate-900 py-4 px-6 min-h-screen">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="inline-block text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-blue-600 to-cyan-500 animate-text">
+          <div className="text-center mb-9">
+            <h1 className="inline-block text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-blue-600 to-cyan-500 animate-text">
               Meet Our Caring Team
             </h1>
             <p className="max-w-2xl mx-auto text-slate-700">
@@ -185,7 +185,7 @@ const Testimonial: React.FC = () => {
             </p>
           </div>
           {/* View toggle */}
-          <div className="flex justify-center mb-12">
+          <div className="flex justify-center mb-10">
             <div className="inline-flex rounded-md shadow-sm">
               <button
                 onClick={() => setSelectedView('grid')}

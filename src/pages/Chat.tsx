@@ -84,7 +84,7 @@ const Chat = () => {
     <MainLayout>
       <div className="min-h-screen bg-[#282829] dark:from-gray-900 dark:via-slate-900 dark:to-gray-900 relative">
         <div className="absolute inset-0 opacity-5 bg-heart-pattern pointer-events-none"></div>
-        <div className="container mx-auto px-4 py-8 relative z-10">
+        <div className="container mx-auto px-4 py-4 relative z-10">
           <header className="text-center mb-12">
             <div className="flex flex-wrap items-center justify-center gap-3 mb-4 text-center px-4 sm:px-6">
               <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-rose-500 animate-pulse" />
@@ -93,13 +93,13 @@ const Chat = () => {
               </h1>
             </div>
 
-            <p className="text-md sm:text-lg text-justify text-slate-600 dark:text-slate-300 mt-2 max-w-2xl mx-auto">
+            <p className="text-md sm:text-lg text-justify text-slate-600 dark:text-slate-300 mt-1 max-w-4xl mx-auto">
               Advanced ECG Analysis using AI to help identify potential heart
               conditions from standard ECG images
             </p>
           </header>
 
-          <Card className="w-full max-w-4xl mx-auto shadow-xl border-0 overflow-hidden">
+          <Card className="w-full max-w-5xl mx-auto shadow-xl border-0 overflow-hidden">
             <CardHeader className="header-gradient text-white relative overflow-hidden p-8">
               <div className="absolute inset-0 bg-heart-pattern opacity-10"></div>
               <div className="relative z-10">

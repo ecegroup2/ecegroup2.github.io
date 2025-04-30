@@ -94,15 +94,15 @@ const initialDoctors: Doctor[] = [
   },
   {
     id: 5,
-    name: "Dr. James Wilson",
+    name: "Dr. James Ray",
     image:
       "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
     specialization: "Interventional Cardiologist",
     rating: 0,
-    location: "Los Angeles",
-    Rate: 4.1,
+    location: "Kolkata",
+    Rate: 4.9,
     experience: 14,
-    availability: "Wed-Sun",
+    availability: "Fri-Sun",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
@@ -179,11 +179,11 @@ const Doctors = () => {
 
   return (
     <MainLayout>
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-2 ">
         <h1 className="text-3xl font-bold tracking-tight text-white">
           Find Cardiac Specialists
         </h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="text-muted-foreground mt-1 mb-4">
           Connect with experts in cardiac care based on your health needs
         </p>
       </div>
@@ -197,9 +197,9 @@ const Doctors = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Users size={18} />
-                    Recommended Specialists
+                    Find Your Specialist
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="mt-1">
                     Based on your health metrics
                   </CardDescription>
                 </div>
@@ -286,17 +286,17 @@ const Doctors = () => {
                     <Users size={18} />
                     Recommended Specialists
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="mb-2 mt-1">
                     Based on your health metrics
                   </CardDescription>
                 </div>
-                <Badge
+                {/* <Badge
                   variant="outline"
                   className="flex text-[8px] md:text-[12px] items-center gap-1 bg-white cursor-pointer w-fit mt-2 md:mt-0"
                 >
                   <MapPin size={12} className="text-green-500" />
                   Near You
-                </Badge>
+                </Badge> */}
               </div>
             </CardHeader>
             <CardContent>

@@ -77,8 +77,8 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="overflow-x-hidden min-h-screen flex flex-col bg-[#282829] text-white">
       <Navbar />
-      <main className="flex-1 w-full px-4 py-6 md:px-6">
-        <div className="max-w-screen-xl mx-auto animate-fade-in">
+      <main className="flex-1 w-full px-4 py-6 md:px-8">
+        <div className="max-w-screen-2xl mx-auto animate-fade-in">
           {children}
         </div>
         {/* Emergency Call and WhatsApp Button */}
