@@ -85,6 +85,10 @@ export default function VitalSignsMonitor() {
       setError("Heart rate must be a number");
       return;
     }
+    if (hr > 240) {
+      setError("Heart Rate cannot exceed 240 BPM");
+      return;
+    }
     setHeartRate(hr);
     setError("");
     // Clear results when input changes
@@ -607,7 +611,7 @@ export default function VitalSignsMonitor() {
                 type="number"
                 value={heartRate ?? ""}
                 onChange={(e) => validateAndSetHeartRate(e.target.value)}
-                className="w-full px-3 py-2 border border-blue-200 text-black rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
+                className="text-[0.6rem] sm:text-base w-full px-3 py-2 border border-blue-200 text-black rounded-md shadow-sm appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none focus:ring-0 focus:ring-blue-500 bg-blue-50"
                 min="0"
                 placeholder="Enter heart rate"
               />
@@ -642,7 +646,7 @@ export default function VitalSignsMonitor() {
                 type="number"
                 value={spo2 ?? ""}
                 onChange={(e) => validateAndSetSpo2(e.target.value)}
-                className="w-full px-3 py-2 border border-blue-200 text-black rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
+                className="text-[0.6rem] sm:text-base w-full px-3 py-2 border border-blue-200 text-black rounded-md shadow-sm appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none focus:ring-0 focus:ring-blue-500 bg-blue-50"
                 min="0"
                 max="100"
                 placeholder="Enter SpO2"
