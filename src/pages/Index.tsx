@@ -2,6 +2,7 @@ import { HeartPulse, Stethoscope, Activity, Download } from "lucide-react";
 import HealthMetricCard from "@/components/HealthMetricCard";
 import VitalChart from "@/components/VitalChart";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Card,
@@ -17,8 +18,6 @@ import MainLayout from "@/layouts/MainLayout";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import ECGDiagram from "@/components/ui/ECGDiagram";
-
-
 
 const Index = () => {
   const [heartRateData, setHeartRateData] = useState<any[]>([]);
@@ -172,9 +171,20 @@ const Index = () => {
     setEcgData(ecg ? [ecg] : null);
   };
 
+  const navigate = useNavigate();
 
-  
- 
+  const handlePrediction = () => {
+    // Navigate to prediction page with data
+    let myHeartRate = heartRate;
+    let mySpo2 = spo2;
+    navigate("/prediction", {
+      state: {
+        myHeartRate,
+        mySpo2,
+      },
+    });
+  };
+
   return (
     <MainLayout>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -188,11 +198,6 @@ const Index = () => {
           <Activity className="text-blue-400 mt-[0.3rem] w-5 h-5" />
         </p>
       </div>
-
-
-
-
-      
 
       {/* for ecg diagram part */}
       <div className="mt-6">
@@ -283,6 +288,31 @@ const Index = () => {
           status="normal"
         />
       </div>
+
+      <div className="my-6 flex justify-center items-center">
+        <button
+          className="h-[3rem] w-[15rem] rounded-full bg-gradient-to-r from-teal-500 to-blue-600 
+    text-white font-medium tracking-wide shadow-lg hover:shadow-xl hover:scale-105 
+    transition-all duration-300 flex items-center justify-center gap-2"
+          onClick={handlePrediction}
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 7l5 5m0 0l-5 5m5-5H6"
+            />
+          </svg>
+          Get Instant Prediction
+        </button>
+      </div>
+
       <section className="py-6">
         {loading ? (
           <div className="text-white mt-4 flex justify-center items-center mx-auto fond-bold italic">
