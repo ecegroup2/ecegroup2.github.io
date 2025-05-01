@@ -173,7 +173,7 @@ const Testimonial: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className="bg-[#282829] text-slate-900 py-4 px-6 min-h-screen">
+      <div className="py-4 px-6 min-h-screen">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-9">

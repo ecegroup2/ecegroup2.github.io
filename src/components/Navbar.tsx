@@ -64,6 +64,7 @@ const Navbar = () => {
           <span className="font-semibold text-xl text-yellow-50">
             HealthiFy
           </span>
+          
         </Link>
 
         {/* Desktop Nav */}
