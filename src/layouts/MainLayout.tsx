@@ -1,9 +1,7 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
-
-import { Phone, MessageCircle, X, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { Phone, MessageCircle, X, Heart } from "lucide-react";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -11,6 +9,8 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   const location = useLocation();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Scroll to top on route change
   useEffect(() => {
@@ -20,12 +20,6 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const phoneNumber = "+917047466142";
   const whatsappNumber = "+917047466142";
   const message = "Emergency! Need assistance!";
-  const mainButtonColor = "#ff5252";
-  const phoneButtonColor = "#4caf50";
-  const whatsappButtonColor = "#25D366";
-
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   // Toggle menu visibility with animation
   const toggleExpand = () => {
@@ -38,73 +32,49 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     }, 300);
   };
 
-  // Close the menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (isExpanded && !target.closest(".contact-float-container")) {
-        setIsExpanded(false);
-      }
-    };
-
-    // document.addEventListener('click', handleClickOutside);
-    // return () => {
-    //   document.removeEventListener('click', handleClickOutside);
-    // };
-  }, [isExpanded]);
-
-  // open the menu when clicking the background
-  const openMenu = () => {
-    if (isExpanded) {
-      setIsExpanded(false);
-    }
-  };
-
   // Handle the phone call action
-  const handleCall = (e: React.MouseEvent) => {
+  const handleCall = (e) => {
     e.stopPropagation();
     window.location.href = `tel:${phoneNumber}`;
   };
 
   // Handle the WhatsApp message action
-  const handleWhatsApp = (e: React.MouseEvent) => {
+  const handleWhatsApp = (e) => {
     e.stopPropagation();
-    // Format the WhatsApp URL with the number and pre-filled message
     const encodedMessage = encodeURIComponent(message);
     window.location.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
   };
 
   return (
-    <div className="overflow-x-hidden min-h-screen flex flex-col bg-[#282829] text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-gray-800 text-white">
       <Navbar />
+      
       <main className="flex-1 w-full px-4 py-6 md:px-8">
         <div className="max-w-screen-2xl mx-auto animate-fade-in">
           {children}
         </div>
-        {/* Emergency Call and WhatsApp Button */}
-        <div className="fixed bottom-8 right-8 z-50 contact-float-container text-black">
+        
+        {/* Improved Emergency Contact Floating Menu */}
+        <div className="fixed bottom-8 right-8 z-50 contact-float-container">
           {/* Expanded menu items */}
           {isExpanded && (
-            <div
-              onClick={openMenu}
-              className={`flex flex-col items-end space-y-4 mb-4 ${
-                isAnimating ? "animate-fadeIn" : ""
-              }`}
-            >
-              {/* Contact labels */}
-              <div className="flex items-center space-x-2 bg-white rounded-lg shadow-lg p-2 mb-1">
-                <span className="text-sm font-medium">Contact Us</span>
+            <div className={`flex flex-col items-end space-y-4 mb-4 ${
+              isAnimating ? "animate-fadeIn" : ""
+            }`}>
+              {/* Main label */}
+              <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-lg rounded-xl shadow-lg p-3 border border-white/20">
+                <Heart className="text-rose-500" size={16} />
+                <span className="text-sm font-medium text-white">Emergency Contact</span>
               </div>
 
               {/* Phone call button with label */}
-              <div className="flex items-center">
-                <div className="mr-3 bg-white px-3 py-1 rounded-lg shadow-md">
-                  <span className="text-sm font-medium">Call Now</span>
+              <div className="group flex items-center transition-all duration-300 ease-in-out">
+                <div className="mr-3 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 rounded-lg shadow-md">
+                  <span className="text-sm font-semibold text-white">Call Now</span>
                 </div>
                 <button
                   onClick={handleCall}
-                  className="relative flex items-center justify-center w-14 h-14 rounded-full shadow-lg transform transition-transform hover:scale-110"
-                  style={{ backgroundColor: phoneButtonColor }}
+                  className="relative flex items-center justify-center w-16 h-16 rounded-full shadow-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 transform transition-all duration-300 hover:scale-110 border-2 border-emerald-400/30"
                   aria-label="Call us"
                 >
                   <Phone className="text-white" size={24} />
@@ -116,14 +86,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
               </div>
 
               {/* WhatsApp button with label */}
-              <div className="flex items-center">
-                <div className="mr-3 bg-white px-3 py-1 rounded-lg shadow-md">
-                  <span className="text-sm font-medium">WhatsApp</span>
+              <div className="group flex items-center transition-all duration-300 ease-in-out">
+                <div className="mr-3 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300 bg-gradient-to-r from-green-500 to-green-600 px-4 py-2 rounded-lg shadow-md">
+                  <span className="text-sm font-semibold text-white">WhatsApp</span>
                 </div>
                 <button
                   onClick={handleWhatsApp}
-                  className="flex items-center justify-center w-14 h-14 rounded-full shadow-lg transform transition-transform hover:scale-110"
-                  style={{ backgroundColor: whatsappButtonColor }}
+                  className="flex items-center justify-center w-16 h-16 rounded-full shadow-2xl bg-gradient-to-r from-green-500 to-green-600 transform transition-all duration-300 hover:scale-110 border-2 border-green-400/30"
                   aria-label="Message on WhatsApp"
                 >
                   <MessageCircle className="text-white" size={24} />
@@ -135,37 +104,61 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           {/* Main floating button */}
           <button
             onClick={toggleExpand}
-            className={`flex items-center justify-center w-16 h-16 rounded-full shadow-lg transform transition-all ${
-              isExpanded ? "rotate-45" : "hover:scale-110"
-            }`}
-            style={{ backgroundColor: mainButtonColor }}
+            className={`flex items-center justify-center w-16 h-16 rounded-full shadow-2xl transform transition-all duration-300 ${
+              isExpanded ? "rotate-45 bg-rose-600" : "hover:scale-110 bg-gradient-to-r from-rose-500 to-rose-600"
+            } border-2 border-rose-400/30`}
             aria-label="Contact options"
           >
             {isExpanded ? (
-              <X className="text-white" size={32} />
+              <X className="text-white" size={28} />
             ) : (
               <div className="flex flex-col items-center">
-                <Phone className="text-white" size={18} />
-                <div className="h-0.5 w-6 bg-white my-1"></div>
-                <MessageCircle className="text-white" size={18} />
+                <div className="relative">
+                  <Phone className="text-white" size={20} />
+                  <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-white animate-pulse"></span>
+                </div>
+                <div className="h-0.5 w-6 bg-white/70 my-1"></div>
+                <MessageCircle className="text-white" size={20} />
               </div>
             )}
           </button>
         </div>
       </main>
-      <footer className="w-full py-4 text-center text-sm text-black px-4 space-y-2">
-        <div className="max-w-screen-xl mx-auto">
-          <span className="font-bold">Contact:</span>{" "}
-          <span
-            className="font-semibold cursor-pointer text-slate-300"
-            onClick={function sendMail() {
-              window.location.href = "mailto:projectimposs@gmail.com";
-            }}
-          >
-            projectimposs@gmail.com
-          </span>
+      
+      {/* Enhanced Footer */}
+      <footer className="w-full py-8 px-4 bg-gray-900/50 backdrop-blur-lg border-t border-white/10">
+        <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center">
+          <div className="flex items-center mb-4 md:mb-0">
+            <Heart className="text-rose-500 mr-2" size={20} />
+            <span className="text-lg font-bold bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">
+              HeartWise
+            </span>
+          </div>
+          
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
+            <div className="flex items-center">
+              <span className="font-medium text-gray-300">Email:</span>{" "}
+              <button
+                className="ml-2 text-rose-400 hover:text-rose-300 transition-colors duration-200 font-medium"
+                onClick={() => window.location.href = "mailto:projectimposs@gmail.com"}
+              >
+                projectimposs@gmail.com
+              </button>
+            </div>
+            
+            <div className="flex items-center">
+              <span className="font-medium text-gray-300">Call:</span>{" "}
+              <button
+                className="ml-2 text-rose-400 hover:text-rose-300 transition-colors duration-200 font-medium"
+                onClick={() => window.location.href = `tel:${phoneNumber}`}
+              >
+                {phoneNumber}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="max-w-screen-xl mx-auto">
+        
+        <div className="max-w-screen-xl mx-auto mt-6 text-center text-sm text-gray-400">
           © {new Date().getFullYear()} HeartWise. All rights reserved.
         </div>
       </footer>
@@ -174,4 +167,3 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 };
 
 export default MainLayout;
-// Removed conflicting local useState function

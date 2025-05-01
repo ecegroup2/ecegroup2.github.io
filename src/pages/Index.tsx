@@ -190,9 +190,12 @@ const Index = () => {
       <ToastContainer position="top-right" autoClose={3000} />
 
       <div className="mb-4 max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-row">
         <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent drop-shadow-md">
           Health Dashboard
         </h1>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmF0bmR3Ynh2cnB6OHE0NThhcjJqN21xMndyYzR6eTd2ajU4MGR6OSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3TYuocrjKLFC9tuszs/giphy.gif" 
+          className="mx-2 w-16 h-8 inline-block rounded-lg " alt=""/></div>
         <p className="mt-1 flex flex-row gap-1 text-pink-400 text-sm sm:text-base hover:text-pink-900">
           Track and monitor your vital health metrics
           <Activity className="text-blue-400 mt-[0.3rem] w-5 h-5" />

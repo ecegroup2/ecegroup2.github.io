@@ -138,11 +138,11 @@ const ResultsPanel = ({ results, imageUrl }: ResultsPanelProps) => {
       reportWindow.document.write(`
         </div>
         
-        <div class="footer">
-          <p><strong>Disclaimer:</strong> This analysis is provided for educational purposes only and is not a substitute for professional medical advice. 
-          Always consult with a qualified healthcare provider for proper diagnosis and treatment.</p>
-          <p>© 2023 HeartGraphia</p>
+        <div class="footer flex justify-center items-center flex-col flex-wrap mt-3">
+          <p><strong>Disclaimer:</strong> This analysis is not a substitute for professional medical advice. Always consult a qualified healthcare provider for proper diagnosis and treatment.</p>
+          <p>@HealthiFy 2025</p>
         </div>
+       
         </body>
         </html>
       `);
@@ -285,10 +285,7 @@ const ResultsPanel = ({ results, imageUrl }: ResultsPanelProps) => {
       </div>
 
       <div className="text-justify text-xs text-gray-500 mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-md">
-        <strong>Disclaimer:</strong> This analysis is provided for educational
-        purposes only and is not a substitute for professional medical advice.
-        Always consult with a qualified healthcare provider for proper diagnosis
-        and treatment.
+        <strong>Disclaimer:</strong> This analysis is not a substitute for professional medical advice. Always consult a qualified healthcare provider for proper diagnosis and treatment.
       </div>
     </div>
   );

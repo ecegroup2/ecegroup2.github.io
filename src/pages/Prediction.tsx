@@ -1,5 +1,7 @@
 import MainLayout from "@/layouts/MainLayout";
 import { useState, useEffect } from "react";
+import { FaCheckCircle as CheckCircleIcon, FaExclamationTriangle as AlertTriangleIcon, FaHeart as HeartIcon, FaRunning as ActivityIcon, FaDownload as DownloadIcon, FaInfoCircle as InfoIcon, FaExclamationCircle as AlertCircleIcon } from "react-icons/fa";
+import { FiClipboard as ClipboardIcon } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 
 interface HealthData {
@@ -717,133 +719,194 @@ export default function Prediction() {
   // Main Render
   return (
     <MainLayout>
-      <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg border border-blue-100 mt-12">
-        <h1 className="text-3xl font-extrabold text-blue-800 mb-6 text-center tracking-tight">
-          Vital Signs Prediction
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div>
+      <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-xl border border-blue-100 mt-12">
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-teal-500 mb-2 tracking-tight">
+            Vital Signs Prediction
+          </h1>
+          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-teal-400 to-blue-500 rounded-full"></div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div className="group">
             <label
               htmlFor="heartRate"
-              className="block text-sm font-semibold text-gray-700 mb-2"
+              className="block text-sm font-semibold text-gray-700 mb-2 group-hover:text-blue-600 transition-colors duration-200"
             >
               Heart Rate (BPM)
             </label>
-            <input
-              id="heartRate"
-              type="number"
-              min="0"
-              max="240"
-              value={heartRate ?? ""}
-              onChange={(e) => validateAndSetHeartRate(e.target.value)}
-              placeholder="e.g., 72"
-              className=" text-black w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-0 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:ring-blue-400"
-            />
-            <p className="mt-1 text-xs text-gray-500">
+            <div className="relative">
+              <input
+                id="heartRate"
+                type="number"
+                min="0"
+                max="240"
+                value={heartRate ?? ""}
+                onChange={(e) => validateAndSetHeartRate(e.target.value)}
+                placeholder="e.g., 72"
+                className="text-black w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none transition-all duration-200 shadow-sm"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <HeartIcon className="h-5 w-5 text-red-500" />
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-gray-500 italic">
               Normal range: 60 - 95 BPM
             </p>
           </div>
-          <div>
+          
+          <div className="group">
             <label
               htmlFor="spo2"
-              className="block text-sm font-semibold text-gray-700 mb-2"
+              className="block text-sm font-semibold text-gray-700 mb-2 group-hover:text-blue-600 transition-colors duration-200"
             >
               SpO₂ (%)
             </label>
-            <input
-              id="spo2"
-              type="number"
-              min="0"
-              max="100"
-              value={spo2 ?? ""}
-              onChange={(e) => validateAndSetSpo2(e.target.value)}
-              placeholder="e.g., 98"
-              className=" text-black w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-0 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:ring-blue-400"
-            />
-            <p className="mt-1 text-xs text-gray-500">Normal range: ≥ 95%</p>
+            <div className="relative">
+              <input
+                id="spo2"
+                type="number"
+                min="0"
+                max="100"
+                value={spo2 ?? ""}
+                onChange={(e) => validateAndSetSpo2(e.target.value)}
+                placeholder="e.g., 98"
+                className="text-black w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none transition-all duration-200 shadow-sm"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-blue-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 22c4.418 0 8-3.582 8-8V8a4 4 0 00-8-8 4 4 0 00-8 8v6c0 4.418 3.582 8 8 8z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-gray-500 italic">
+              Normal range: ≥ 95%
+            </p>
           </div>
         </div>
+        
         {error && (
-          <div className="mb-6 p-3 bg-red-100 border border-red-300 text-red-700 rounded">
-            {error}
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg shadow-sm animate-pulse">
+            <div className="flex items-center">
+              <AlertTriangleIcon className="h-5 w-5 mr-2" />
+              <span className="font-medium">{error}</span>
+            </div>
           </div>
         )}
-        <div className="my-6 flex justify-center items-center">
+        
+        <div className="my-10 flex justify-center items-center">
           <button
             onClick={evaluateVitalSigns}
-            className="h-[3rem] w-[15rem] rounded-full bg-gradient-to-r from-teal-500 to-blue-600 
-    text-white font-medium tracking-wide shadow-lg hover:shadow-xl hover:scale-105 
-    transition-all duration-300 flex items-center justify-center gap-2"
+            className="h-14 w-64 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 
+            text-white font-medium tracking-wide text-lg shadow-lg hover:shadow-xl 
+            hover:scale-105 transform transition-all duration-300 
+            flex items-center justify-center gap-2 relative overflow-hidden group"
           >
-            Evaluate
+            <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+            <ActivityIcon className="h-5 w-5" />
+            <span>Evaluate</span>
           </button>
-          
         </div>
-        <div className="mb-6 p-3 bg-blue-100 border border-blue-300 text-blue-700 rounded">
-        <p className="text-gray-600 text-sm italic">
-          Disclaimer: This report is generated by Smart & Early Abnormality Diagnosis System. For medical emergencies, call 911 or your local emergency services immediately.
-        </p>
+        
+        <div className="mb-8 p-4 bg-blue-50 border-l-4 border-blue-400 text-blue-800 rounded-lg shadow-sm">
+          <div className="flex">
+            <InfoIcon className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+            <p className="text-sm italic">
+              <span className="font-semibold">Disclaimer:</span> This report is generated by Smart & Early Abnormality Diagnosis System. For medical emergencies, call 911 or your local emergency services immediately.
+            </p>
+          </div>
         </div>
+        
         {results && (
-          <div className="space-y-6">
+          <div className="space-y-8 animate-fadeIn">
             {/* Heart Rate Result */}
             <div
               className={`${getStatusColor(
                 results.heartRate.status
-              )} p-4 rounded-lg flex items-start`}
+              )} p-6 rounded-xl shadow-md transition-all duration-300 transform hover:scale-[1.01] flex items-start`}
             >
-              <div className="mr-4">
+              <div className="mr-5 bg-white p-3 rounded-full shadow-md">
                 {getHeartRateIcon(results.heartRate.status)}
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  Heart Rate: {heartRate} BPM -{" "}
-                  <span className="capitalize">{results.heartRate.status}</span>
+                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                  Heart Rate: {heartRate} BPM
+                  <span className="text-sm px-3 py-1 rounded-full capitalize bg-opacity-20 bg-gray-800 text-gray-800">
+                    {results.heartRate.status}
+                  </span>
                 </h2>
-                <p className="mt-2 text-gray-700">
+                <p className="mt-2 text-gray-700 leading-relaxed">
                   {results.heartRate.message}
                 </p>
               </div>
             </div>
+            
             {/* SpO2 Result */}
             <div
               className={`${getStatusColor(
                 results.spo2.status
-              )} p-4 rounded-lg flex items-start`}
+              )} p-6 rounded-xl shadow-md transition-all duration-300 transform hover:scale-[1.01] flex items-start`}
             >
-              <div className="mr-4">{getOxygenIcon(results.spo2.status)}</div>
+              <div className="mr-5 bg-white p-3 rounded-full shadow-md">
+                {getOxygenIcon(results.spo2.status)}
+              </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  SpO₂: {spo2}% -{" "}
-                  <span className="capitalize">{results.spo2.status}</span>
+                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                  SpO₂: {spo2}%
+                  <span className="text-sm px-3 py-1 rounded-full capitalize bg-opacity-20 bg-gray-800 text-gray-800">
+                    {results.spo2.status}
+                  </span>
                 </h2>
-                <p className="mt-2 text-gray-700">{results.spo2.message}</p>
+                <p className="mt-2 text-gray-700 leading-relaxed">
+                  {results.spo2.message}
+                </p>
               </div>
             </div>
+            
             {/* Summary */}
-            <div className="p-4 rounded-lg bg-blue-50 border border-blue-300">
-              <h3 className="text-lg font-semibold text-blue-800 mb-2">
+            <div className="p-6 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 shadow-md">
+              <h3 className="text-xl font-bold text-blue-800 mb-4 flex items-center">
+                <ClipboardIcon className="h-5 w-5 mr-2" />
                 Summary Assessment
               </h3>
-              <p
-                className={`font-bold ${getUrgencyColor(
-                  results.summary.urgencyLevel
-                )}`}
-              >
-                Urgency Level: {results.summary.urgencyLevel.toUpperCase()}
-              </p>
-              <ul className="list-disc list-inside mt-2 text-gray-700">
+              <div className="mb-4 p-3 rounded-lg bg-white bg-opacity-70 shadow-sm">
+                <p
+                  className={`font-bold text-lg flex items-center ${getUrgencyColor(
+                    results.summary.urgencyLevel
+                  )}`}
+                >
+                  <AlertCircleIcon className="h-5 w-5 mr-2" />
+                  Urgency Level: {results.summary.urgencyLevel.toUpperCase()}
+                </p>
+              </div>
+              <ul className="space-y-2 text-gray-700">
                 {results.summary.recommendations.map((rec, idx) => (
-                  <li key={idx}>{rec}</li>
+                  <li key={idx} className="flex items-start">
+                    <CheckCircleIcon className="h-5 w-5 mr-2 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span>{rec}</span>
+                  </li>
                 ))}
               </ul>
             </div>
+            
             {/* PDF Export */}
-            <div className="text-center">
+            <div className="text-center mt-10">
               <button
                 onClick={generatePDF}
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded shadow transition"
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center mx-auto"
               >
+                <DownloadIcon className="h-5 w-5 mr-2" />
                 Export Report as PDF
               </button>
             </div>
