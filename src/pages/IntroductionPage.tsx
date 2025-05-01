@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
-import { HeartPulse, ArrowLeft, Calendar, Award, Phone, Cpu, Activity, Zap } from "lucide-react";
+import {
+  HeartPulse,
+  ArrowLeft,
+  Calendar,
+  Award,
+  Phone,
+  Cpu,
+  Activity,
+  Zap,
+  Link,
+} from "lucide-react";
 
 export default function IntroductionPage() {
   const [activeTab, setActiveTab] = useState("about");
@@ -12,7 +22,11 @@ export default function IntroductionPage() {
   // ECG Animation Background Component
   const ECGBackground = () => (
     <div className="absolute inset-0 overflow-hidden opacity-20">
-      <svg className="w-full h-full" viewBox="0 0 1440 800" preserveAspectRatio="none">
+      <svg
+        className="w-full h-full"
+        viewBox="0 0 1440 800"
+        preserveAspectRatio="none"
+      >
         <path
           className="ecg-path"
           d="M0,400 Q60,400 90,400 T140,400 T170,200 T200,400 T240,400 T280,400 T320,600 T350,400 T390,400 T420,400 T450,200 T480,400 T520,400 T560,400 T600,600 T640,400 T680,400 T720,400 T760,200 T800,400 T840,400 T880,400 T920,600 T960,400 T1000,400 T1040,400 T1080,200 T1120,400 T1160,400 T1200,400 T1240,600 T1280,400 T1320,400 T1360,400 T1400,200 T1440,400"
@@ -48,10 +62,17 @@ export default function IntroductionPage() {
       <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-gradient-radial from-purple-900/20 to-transparent rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-radial from-blue-900/20 to-transparent rounded-full blur-3xl"></div>
 
-      <div className={`w-full max-w-4xl z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <div
+        className={`w-full max-w-4xl z-10 transition-all duration-1000 ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 mb-6 hover:cursor-pointer" onClick={() => Route('/')} >
+          <div
+            className="inline-flex items-center gap-2 mb-6 hover:cursor-pointer"
+            onClick={() => Route("/")}
+          >
             <div className="relative">
               <HeartPulse className="h-10 w-10 text-pink-500 animate-pulse" />
               <div className="absolute inset-0 h-10 w-10 bg-pink-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
@@ -71,7 +92,7 @@ export default function IntroductionPage() {
           {/* Glow effects */}
           <div className="absolute -top-20 -left-20 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
-          
+
           <div className="md:flex">
             <div className="md:w-1/3 p-6">
               <div className="h-full flex items-center justify-center">
@@ -100,7 +121,7 @@ export default function IntroductionPage() {
                 <p className="text-pink-400 font-medium mb-4 text-lg">
                   Expert Team of Engineers
                 </p>
-                
+
                 <div className="flex flex-wrap gap-3 mb-5">
                   <span className="bg-gradient-to-r from-pink-600 to-pink-400 bg-opacity-30 text-white px-4 py-1.5 rounded-full text-xs font-medium flex items-center">
                     <Zap className="h-3 w-3 mr-1" />
@@ -115,7 +136,7 @@ export default function IntroductionPage() {
                     ECE Engineer
                   </span>
                 </div>
-                
+
                 <div className="flex items-center gap-6 text-gray-300 mb-5">
                   <div className="flex items-center gap-2 bg-gray-800 bg-opacity-50 px-3 py-1.5 rounded-lg">
                     <Calendar className="h-4 w-4 text-pink-400" />
@@ -175,7 +196,8 @@ export default function IntroductionPage() {
                           B.Tech in ECE
                         </h3>
                         <p className="text-gray-300">
-                          St. Thomas' College of Engineering & Technology, 2021-25
+                          St. Thomas' College of Engineering & Technology,
+                          2021-25
                         </p>
                       </div>
                     </div>
@@ -198,23 +220,30 @@ export default function IntroductionPage() {
                     {[
                       {
                         name: "Soumik Pal",
-                        email: "soumik20020906@gmail.com"
+                        email: "soumik20020906@gmail.com",
+                        LinkedIn:
+                          "https://www.linkedin.com/in/soumik-pal-1b0a1b1a2/",
                       },
                       {
                         name: "Premanshu Ray",
-                        email: "premanshuray981@gmail.com"
+                        email: "premanshuray981@gmail.com",
+                        LinkedIn: "https://www.linkedin.com/in/premanshuray/",
                       },
                       {
                         name: "Ali Hossain Munshi",
-                        email: "alihossainmunshi@gmail.com"
+                        email: "alihossainmunshi@gmail.com",
+                        LinkedIn:
+                          "https://www.linkedin.com/in/ali-hossain-munshi-34362a234 ",
                       },
                       {
                         name: "Tushar Koley",
-                        email: "frozenkoley2003@gmail.com"
-                      }
+                        email: "frozenkoley2003@gmail.com",
+                        LinkedIN:
+                          "https://www.linkedin.com/in/tushar-koley-704014246 ",
+                      },
                     ].map((person, index) => (
-                      <div 
-                        key={index} 
+                      <div
+                        key={index}
                         className="flex items-start gap-4 bg-gray-700 bg-opacity-30 p-3 rounded-lg hover:bg-opacity-50 transition-all hover:translate-x-1"
                       >
                         <div className="h-8 w-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-sm text-white font-bold">
@@ -225,11 +254,21 @@ export default function IntroductionPage() {
                             {person.name}
                           </h3>
                           <div className="flex flex-wrap gap-3 mt-1">
-                            <span className="text-blue-400 hover:text-blue-300 transition-colors">
+                            <span
+                              className="text-blue-400 hover:text-blue-300 transition-colors hover:cursor-pointer"
+                              onClick={() =>
+                                (window.location.href = `mailto:${person.email}?subject=Hello HealthiFy&body=I would like to connect with you.`)
+                              }
+                            >
                               {person.email}
                             </span>
                             <span className="text-white">|</span>
-                            <span className="text-pink-400 hover:text-pink-300 transition-colors">
+                            <span
+                              className="text-pink-400 hover:text-pink-300 transition-colors hover:cursor-pointer"
+                              onClick={() =>
+                                window.open(`${person.LinkedIN}`, "_blank")
+                              }
+                            >
                               LinkedIn
                             </span>
                           </div>
@@ -245,7 +284,10 @@ export default function IntroductionPage() {
 
         {/* Footer Navigation */}
         <div className="mt-10 text-center">
-          <button onClick={() => Route('/')} className="inline-flex items-center text-gray-400 hover:text-white transition-colors bg-gray-800 bg-opacity-50 px-4 py-2 rounded-lg hover:bg-opacity-70">
+          <button
+            onClick={() => Route("/")}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors bg-gray-800 bg-opacity-50 px-4 py-2 rounded-lg hover:bg-opacity-70"
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to homepage
           </button>
