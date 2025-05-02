@@ -308,7 +308,12 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         )} meters\n\n📱 MAP LINKS (click to open):\n• Google Maps: ${googleMapsLink}\n• Waze: ${waze}\n• OpenStreetMap: ${openStreetMapLink}`;
 
         const encodedMessage = encodeURIComponent(locationMessage);
-        window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+          "_blank",
+          "noopener,noreferrer"
+        );
+        hideToast("");
       } catch (error) {
         // hideToast(loadingToast);
         // Handle specific geolocation errors
@@ -333,13 +338,23 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
         const fallbackMessage = `${defaultMessage}\n\n⚠️ ${errorMessage}\n\nPlease describe your location manually or try again.`;
         const encodedMessage = encodeURIComponent(fallbackMessage);
-        window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+          "_blank",
+          "noopener,noreferrer"
+        );
+        hideToast("");
       }
     } else {
       // Geolocation not supported by the browser
       const fallbackMessage = `${defaultMessage}\n\n⚠️ Your browser doesn't support automatic location services.\n\nPlease describe your location manually.`;
       const encodedMessage = encodeURIComponent(fallbackMessage);
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+      window.open(
+        `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+      hideToast("");
     }
   };
 
