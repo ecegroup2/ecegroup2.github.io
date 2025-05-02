@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
-import { Phone, MessageCircle, X, Heart } from "lucide-react";
+import { Phone, MessageCircle, X, Heart, Mail } from "lucide-react";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -42,7 +42,8 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const handleWhatsApp = (e) => {
     e.stopPropagation();
     const encodedMessage = encodeURIComponent(message);
-    window.location.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
+
   };
 
   return (
@@ -125,45 +126,57 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </div>
       </main>
       
-      {/* Enhanced Footer */}
-      <footer className="w-full py-8 px-4 bg-gray-900/50 backdrop-blur-lg border-t border-white/10">
-        <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center mb-4 md:mb-0">
-            <Heart className="text-rose-500 mr-2" size={20} />
-            <span className="text-lg font-bold bg-gradient-to-r from-rose-400 to-red-500 bg-clip-text text-transparent">
-              HeartWise
-            </span>
-          </div>
-          
-          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
-            <div className="flex items-center">
-              <span className="font-medium text-gray-300">Email:</span>{" "}
-              <button
-                className="ml-2 text-rose-400 hover:text-rose-300 transition-colors duration-200 font-medium"
-                onClick={() => window.location.href = "mailto:projectimposs@gmail.com"}
-              >
-                projectimposs@gmail.com
-              </button>
-            </div>
-            
-            <div className="flex items-center">
-              <span className="font-medium text-gray-300">Call:</span>{" "}
-              <button
-                className="ml-2 text-rose-400 hover:text-rose-300 transition-colors duration-200 font-medium"
-                onClick={() => window.location.href = `tel:${phoneNumber}`}
-              >
-                {phoneNumber}
-              </button>
-            </div>
-          </div>
+      {/*Footer */}
+      <footer className="w-full py-6 px-6 bg-gradient-to-b from-gray-900/80 to-gray-900 backdrop-blur-xl border-t border-white/10">
+  <div className="max-w-screen-xl mx-auto">
+    {/* Main Content */}
+    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+      {/* Branding */}
+      <div className="group flex items-center mb-4 md:mb-0 hover:scale-105 transition-transform">
+        <Heart className="text-rose-500 mr-3 animate-pulse" size={24} />
+        <span className="text-xl font-extrabold bg-gradient-to-r from-rose-400 via-red-500 to-pink-600 bg-clip-text text-transparent">
+          HeartWise
+        </span>
+      </div>
+
+      {/* Contact Section */}
+      <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="flex items-center group">
+          <Mail className="text-rose-400 mr-2 group-hover:animate-bounce" size={18} />
+          <button
+            className="font-medium text-gray-300 hover:text-rose-300 transition-colors duration-300"
+            onClick={() => window.location.href = "mailto:projectimposs@gmail.com"}
+          >
+            projectimposs@gmail.com
+          </button>
         </div>
-        
-        <div className="max-w-screen-xl mx-auto mt-6 text-center text-sm text-gray-400">
-          © {new Date().getFullYear()} HeartWise. All rights reserved.
+
+        <div className="flex items-center group">
+          <Phone className="text-rose-400 mr-2 group-hover:animate-spin" size={18} />
+          <button
+            className="font-medium text-gray-300 hover:text-rose-300 transition-colors duration-300"
+            onClick={() => window.location.href = `tel:${phoneNumber}`}
+          >
+            {phoneNumber}
+          </button>
         </div>
-      </footer>
+      </div>
+    </div>
+
+    {/* Copyright */}
+    <div className="mt-6 pt-6 border-t border-white/10 text-center">
+      <p className="text-sm text-gray-400/90 tracking-wide">
+        © {new Date().getFullYear()} HeartWise. All rights reserved. 
+        <span className="block mt-2 text-xs text-gray-500/70">
+          Crafted with <span className="text-rose-500">❤️</span> for better health solutions
+        </span>
+      </p>
+    </div>
+  </div>
+</footer>
+
     </div>
   );
-};
+}
 
 export default MainLayout;
