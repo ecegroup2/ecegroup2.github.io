@@ -178,7 +178,7 @@ const Testimonial: React.FC = () => {
           {/* Header */}
           <div className="text-center mb-9">
             <h1 className="inline-block text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-blue-600 to-cyan-500 animate-text">
-              Meet Our Caring Team
+              Meet Our Team
             </h1>
             <p className="max-w-2xl mx-auto text-slate-700">
               The dedicated professionals behind our healthcare project
