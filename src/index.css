@@ -151,3 +151,11 @@
 .chart-container {
   @apply w-full h-full overflow-hidden;
 }
+
+body {
+  user-select: none;
+}
+
+img {
+  pointer-events: none;
+}
