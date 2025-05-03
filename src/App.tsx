@@ -8,13 +8,13 @@ import Index from "./pages/Index";
 import Chat from "./pages/Chat";
 import Prediction from "./pages/Prediction";
 import Doctors from "./pages/Doctors";
-import Testimonial from "./pages/Testimonial.tsx"; // Ensure the file './pages/Testimonial.tsx' exists or update the path to the correct file.
+import Testimonial from "./pages/Testimonial.tsx"; 
 import NotFound from "./pages/NotFound";
-import IntroductionPage from "./pages/IntroductionPage"; // Ensure the file './pages/IntroductionPage.tsx' exists or update the path to the correct file.
-
+import IntroductionPage from "./pages/IntroductionPage"; 
 
 
 const App = () => (
+ 
    <TooltipProvider>
       <Toaster />
       <Sonner />
