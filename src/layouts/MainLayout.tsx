@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Phone, MessageCircle, X, Heart, Mail } from "lucide-react";
 
+
 interface MainLayoutProps {
   children: ReactNode;
 }
@@ -112,6 +113,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   // Enhanced multi-source location retrieval for maximum accuracy
   const defaultMessage = "Emergency! Need assistance!";
+  const w3wapi = `IU49TPR3` ;
   const getAccurateLocation = async (
     lat: number,
     lon: number
@@ -119,7 +121,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     try {
       const getRawLocation = () => {
         return `Location Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
-      };
+      }; 
 
       const locationPromises = [
         // 1. BigDataCloud API
@@ -169,7 +171,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
         // 3. what3words API (mock/demo)
         fetch(
-          `https://api.what3words.com/v3/convert-to-3wa?coordinates=${lat},${lon}&key=IU49TPR3`
+          `https://api.what3words.com/v3/convert-to-3wa?coordinates=${lat},${lon}&key=${w3wapi}`
         )
           .then((res) => res.json())
           .then((data) => {
