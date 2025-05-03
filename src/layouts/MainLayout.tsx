@@ -112,24 +112,23 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   // Enhanced multi-source location retrieval for maximum accuracy
   const defaultMessage = "Emergency! Need assistance!";
-  const getAccurateLocation = async (lat, lon) => {
+  const getAccurateLocation = async (
+    lat: number,
+    lon: number
+  ): Promise<string> => {
     try {
-      // Define a function to get a "raw" location string with just coordinates
       const getRawLocation = () => {
         return `Location Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
       };
 
-      // Try multiple location services in parallel for the best result
       const locationPromises = [
-        // 1. Try BigDataCloud reverse geocoding API (free tier with generous limits)
+        // 1. BigDataCloud API
         fetch(
           `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
         )
           .then((res) => res.json())
           .then((data) => {
             if (!data || data.status === "failed") return null;
-
-            // Build a clean address from BigDataCloud response
             const components = [];
             if (data.locality) components.push(data.locality);
             if (data.city) components.push(data.city);
@@ -139,25 +138,20 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             )
               components.push(data.principalSubdivision);
             if (data.countryName) components.push(data.countryName);
-
             const address = components.join(", ");
             return address || null;
           })
           .catch(() => null),
 
-        // 2. Try OpenStreetMap Nominatim as backup
+        // 2. OpenStreetMap Nominatim
         fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1&zoom=18`
         )
           .then((res) => res.json())
           .then((data) => {
             if (!data || !data.address) return null;
-
-            // Extract key components from OSM response
             const address = data.address;
             const components = [];
-
-            // Add the most specific components first
             if (address.road || address.street)
               components.push(address.road || address.street);
             if (address.suburb || address.neighbourhood)
@@ -167,56 +161,40 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             if (address.state || address.county)
               components.push(address.state || address.county);
             if (address.country) components.push(address.country);
-
             return components.length > 0
               ? components.join(", ")
               : data.display_name || null;
           })
           .catch(() => null),
 
-        // 3. Try direct W3W API integration (what3words - divides world into 3m squares with unique 3 word combinations)
-        // Note: This is a mock implementation as actual W3W API requires a key
+        // 3. what3words API (mock/demo)
         fetch(
-          `https://api.what3words.com/v3/convert-to-3wa?coordinates=${lat},${lon}&key=YOUR_W3W_API_KEY_HERE`
+          `https://api.what3words.com/v3/convert-to-3wa?coordinates=${lat},${lon}&key=IU49TPR3`
         )
           .then((res) => res.json())
           .then((data) => {
             if (!data || !data.words) return null;
-            // This would return the 3-word address if API was properly configured
             return `what3words: ${data.words}`;
           })
           .catch(() => null),
       ];
 
-      // Wait for all location services to respond
       const locationResults = await Promise.all(locationPromises);
-
-      // Filter out null results and get the best available location
       const validLocations = locationResults.filter((loc) => loc !== null);
 
-      // Create a comprehensive location description
       if (validLocations.length > 0) {
-        // Start with the most detailed location we could find
         let bestLocation = validLocations[0];
-
-        // If multiple services returned data, combine their results
         if (validLocations.length > 1) {
-          // Use the longest result as it's likely most detailed
           const longestResult = validLocations.reduce((prev, current) => {
             return current && current.length > prev.length ? current : prev;
           }, "");
-
           bestLocation = longestResult;
         }
-
         return bestLocation;
       }
-
-      // If all services failed, return a raw coordinate string
       return getRawLocation();
     } catch (err) {
       console.error("Error getting location:", err);
-      // Even if everything fails, return the raw coordinates
       return `Location Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
     }
   };
