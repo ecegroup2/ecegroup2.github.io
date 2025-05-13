@@ -10,7 +10,7 @@ interface DoctorCardProps {
   name: string;
   image: string;
   specialization: string;
-  Rate: number;
+  Rate: string ;
   rating: number;
   location: string;
   experience: number;
@@ -48,6 +48,13 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   const handleCall = () => {
     window.location.href = `tel:${phoneNumber}`;
   };
+
+  const handleBookAppointment = () => {
+    // Logic to book an appointment
+    window.open("https://docs.google.com/forms/d/e/1FAIpQLSekztdhSIjKpeosx8jtRaU-HJ6FeZgoWBZ7xAvJXECUo6A37g/viewform", "_blank");
+// For demonstration, we'll just show an alert
+    toast(`Booking appointment with ${name}`);
+  }
 
   return (
     <Card className="w-full  max-w-4xl mx-auto shadow-md hover:shadow-xl transition duration-300 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col sm:flex-row" style={style}>
@@ -91,7 +98,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
             Call Now
           </Button>
 
-          <Button className="w-full sm:w-auto px-4 py-2 rounded-lg shadow-sm">
+          <Button onClick={handleBookAppointment} className="w-full sm:w-auto px-4 py-2 rounded-lg shadow-sm">
             Book Appointment
           </Button>
           </div>
@@ -107,4 +114,36 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 };
       
 
+function toast(message: string) {
+  const toastContainer = document.createElement("div");
+  toastContainer.textContent = message;
+  toastContainer.style.position = "fixed";
+  toastContainer.style.bottom = "20px";
+  toastContainer.style.right = "20px";
+  toastContainer.style.backgroundColor = "#333";
+  toastContainer.style.color = "#fff";
+  toastContainer.style.padding = "10px 20px";
+  toastContainer.style.borderRadius = "5px";
+  toastContainer.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.3)";
+  toastContainer.style.zIndex = "1000";
+  toastContainer.style.opacity = "0";
+  toastContainer.style.transition = "opacity 0.6s";
+
+  document.body.appendChild(toastContainer);
+
+  // Fade in
+  setTimeout(() => {
+    toastContainer.style.opacity = "1";
+  }, 10);
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    toastContainer.style.opacity = "0";
+    setTimeout(() => {
+      document.body.removeChild(toastContainer);
+    }, 300);
+  }, 3000);
+}
+
 export default DoctorCard;
+
