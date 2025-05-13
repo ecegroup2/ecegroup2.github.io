@@ -309,6 +309,15 @@ const Doctors = () => {
                     <SelectItem value="interventional">
                       Interventional Cardiologist
                     </SelectItem>
+                    <SelectItem value="cardiologist">
+                      Cardiologist
+                    </SelectItem>
+                    <SelectItem value="heart failure specialist">
+                      Heart Failure Specialist
+                    </SelectItem>
+                    <SelectItem value="cardiothoracic surgeon">
+                      Cardiothoracic Surgeon
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
