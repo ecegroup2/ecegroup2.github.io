@@ -26,7 +26,7 @@ type Doctor = {
   name: string;
   image: string;
   specialization: string;
-  Rate: number;
+  Rate: string;
   rating: number;
   location: string;
   experience: number;
@@ -38,74 +38,147 @@ type Doctor = {
 const initialDoctors: Doctor[] = [
   {
     id: 1,
-    name: "Dr. Sarah Johnson",
-    image:
-      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop",
+    name: "Dr. Saurabh Sen",
+    image: "/doctor1.avif", 
+      // "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop",
     specialization: "Cardiologist",
     rating: 0,
-    location: "New York",
-    Rate: 4.7,
-    experience: 15,
+    location: "Kolkata",
+    Rate: "4.7",
+    experience: 4,
     availability: "Mon, Wed, Fri",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
   {
     id: 2,
-    name: "Dr. Michael Chen",
-    image:
-      "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop",
+    name: "Dr. Smaranya Mukherjee",
+    image:"/doctor2.jpg" ,
+      // "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop",
     specialization: "Cardiac Surgeon",
     rating: 0,
-    location: "Boston",
-    Rate: 3.9,
-    experience: 12,
+    location: "Kolkata",
+    Rate: "3.9",
+    experience: 5,
     availability: "Tue, Thu, Sat",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
   {
     id: 3,
-    name: "Dr. Emily Rodriguez",
-    image:
-      "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=2787&auto=format&fit=crop",
+    name: "Dr. Aradhya Samui",
+    image: "/doctor3.jpg",
+      // "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=2787&auto=format&fit=crop",
     specialization: "Electrophysiologist",
     rating: 0,
-    location: "Chicago",
-    Rate: 3.5,
-    experience: 10,
+    location: "Durgapur",
+    Rate: "3.5",
+    experience: 2.1,
     availability: "Mon-Fri",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
   {
     id: 4,
-    name: "Dr. James Wilson",
-    image:
-      "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
+    name: "Dr. Sofia Quadri",
+    image: "/doctor4.jpg",
+      // "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
     specialization: "Interventional Cardiologist",
     rating: 0,
-    location: "Los Angeles",
-    Rate: 4.1,
-    experience: 14,
+    location: "Siliguri",
+    Rate: "4.1",
+    experience: 4,
     availability: "Wed-Sun",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
   {
     id: 5,
-    name: "Dr. James Ray",
-    image:
-      "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
-    specialization: "Interventional Cardiologist",
+    name: "Dr. Samrat Sen",
+    image: "/doctor5.avif",
+      // "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2864&auto=format&fit=crop",
+    specialization: "Heart Failure Specialist",
     rating: 0,
-    location: "Kolkata",
-    Rate: 4.9,
-    experience: 14,
+    location: "Arambagh",
+    Rate: "4.9",
+    experience: 9,
     availability: "Fri-Sun",
     totalRatings: 2,
     totalRatingValue: 9.0,
   },
+
+  {
+    id: 6,
+    name: "Indra Bahadur Rai",
+    image: "/doctor6.avif",
+    // "https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2864&auto=format&fit=crop",
+    specialization: "Interventional Cardiologist",
+    rating: 0,
+    location: "Kolkata",
+    Rate: "4.1",
+    experience: 14,
+    availability: "Thu-Fri",
+    totalRatings: 2,
+    totalRatingValue: 9.0,
+  },
+
+  {
+    id: 7,
+    name: "Dr. Anisha Gurung",
+    image: "/doctor7.jpg",
+    //  "https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=2864&auto=format&fit=crop",
+    specialization: "Electrophysiologist",
+    rating: 0,
+    location: "Darjeeling",
+    Rate: "4.5",
+    experience: 3.5,
+    availability: "Mon-Wed",
+    totalRatings: 2,
+    totalRatingValue: 9.0
+  },
+  {
+    id: 8,
+    name: "Dr. Rajesh Pradhan",
+    image: "/doctor8.avif",
+    //  "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2864&auto=format&fit=crop",
+    specialization: "Cardiothoracic Surgeon",
+    rating: 0,
+    location: "Barasat",
+    Rate: "3.3",
+    experience: 18,
+    availability: "Tue-Sat",
+    totalRatings: 4,
+    totalRatingValue: 9
+  },
+  {
+    id: 9,
+    name: "Dr. Priya Tamang",
+    image: "/doctor9.jpg",
+    // "https://images.unsplash.com/photo-1595433707802-0c1fbd6c0bc8?q=80&w=2864&auto=format&fit=crop",
+    specialization: "Interventional Cardiologist",
+    rating: 0,
+    location: "Mirik",
+    Rate: "4.7",
+    experience: 1.7,
+    availability: "Wed-Sun",
+    totalRatings: 10,
+    totalRatingValue: 9
+  },
+  {
+    id: 10,
+    name: "Dr. Pranay Koley",
+    image: "/doctor10.avif",
+    // "https://unsplash.com/photos/doctor-holding-red-stethoscope-hIgeoQjS_iE",
+    specialization: "Cardiologist",
+    rating: 0,
+    location: "Kharagpur",
+    Rate: "4.2",
+    experience: 6,
+    availability: "Mon-Fri",
+    totalRatings: 12,
+    totalRatingValue: 11
+  },
+
   
 ];
 
@@ -141,7 +214,7 @@ const Doctors = () => {
         location === "all" ||
         normalize(doc.location).includes(normalize(location));
 
-      const matchesRating = rating === "all" || doc.Rate >= parseFloat(rating);
+      const matchesRating = rating === "all" || doc.Rate ;
 
       return (
         matchesSearch &&
@@ -167,8 +240,10 @@ const Doctors = () => {
               totalRatings: doctor.totalRatings + 1,
               totalRatingValue: doctor.totalRatingValue + newRating,
               Rate:
-                (doctor.totalRatingValue + newRating) /
-                (doctor.totalRatings + 1),
+                (
+                  (doctor.totalRatingValue + newRating) /
+                  (doctor.totalRatings + 1)
+                ).toFixed(1),
             }
           : doctor
       )
@@ -246,15 +321,20 @@ const Doctors = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Locations</SelectItem>
-                    <SelectItem value="new-york">New York</SelectItem>
-                    <SelectItem value="boston">Boston</SelectItem>
-                    <SelectItem value="chicago">Chicago</SelectItem>
-                    <SelectItem value="los-angeles">Los Angeles</SelectItem>
+                    <SelectItem value="Kolkata">Kolkata</SelectItem>
+                    <SelectItem value="Durgapur">Durgapur</SelectItem>
+                    <SelectItem value="Siliguri">Siliguri</SelectItem>
+                    <SelectItem value="Arambagh">Arambagh</SelectItem>
+                    <SelectItem value="Darjeeling">Darjeeling</SelectItem>
+                    <SelectItem value="Barasat">Barasat</SelectItem>
+                    <SelectItem value="Mirik">Mirik</SelectItem>
+                    <SelectItem value="Kharagpur">Kharagpur</SelectItem>
+
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="text-sm font-medium">Rating</label>
                 <Select defaultValue="all" onValueChange={setRating}>
                   <SelectTrigger>
@@ -267,7 +347,7 @@ const Doctors = () => {
                     <SelectItem value="2.0">2.0+ Stars</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
 
               <Button className="w-full mt-2" onClick={applyFilters}>
                 Apply Filters
