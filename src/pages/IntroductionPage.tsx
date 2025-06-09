@@ -184,8 +184,7 @@ export default function IntroductionPage() {
                       efficient. Our current project, the "Smart & Early
                       Abnormality Diagnosis System (IoT-Healthcare)", is an
                       IoT-based health monitoring solution designed for
-                      real-time tracking of vital signs like SpO₂, heart rate,
-                      BMI, and ECG. By enabling remote patient monitoring, data
+                      real-time tracking of vital signs like SpO₂, heart rate, and ECG. By enabling remote patient monitoring, data
                       logging, and early detection of abnormalities, we aim to
                       empower healthcare providers and enhance patient care,
                       especially in rural and underserved communities.
