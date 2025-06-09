@@ -36,7 +36,7 @@ const Navbar = () => {
   const navLinks = [
     { path: "/", label: "Dashboard", icon: <HeartPulse size={16} /> },
     {
-      path: "/chat",
+      path: "https://healthifyaianalyzer.netlify.app/",
       label: "AI Consultation",
       icon: <MessageSquare size={16} />,
     },
