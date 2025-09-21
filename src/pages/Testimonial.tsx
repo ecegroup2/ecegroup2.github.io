@@ -28,7 +28,7 @@ const teamMembers: TeamMember[] = [
   {
     id: 3,
     name: "Premanshu Ray",
-    photo: "/premanshuray.jpg",
+    photo: "/premanshuray.png",
     role: "Project Member",
     intro: "Student of Electronics & Communication Engineering Department",
   },
